@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>袖里乾坤 · 小六壬</title>
+<style>
+  :root{
+    --paper:#F7F2E7;
+    --paper-deep:#EFE7D4;
+    --ink:#2B2B2B;
+    --ink-soft:#6B645A;
+    --cinnabar:#B03A2E;
+    --cinnabar-deep:#8F2E24;
+    --gold:#B98A4A;
+    --card:#FCFAF3;
+    --line:rgba(43,43,43,.16);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{height:100%}
+  body{
+    font-family:"Noto Serif SC","Source Han Serif SC","Songti SC","STSong","SimSun",serif;
+    background:#D8D2C2;
+    color:var(--ink);
+    display:flex;align-items:center;justify-content:center;
+    min-height:100%;
+  }
+  [data-design-suite-app-preview-shell]{
+    width:430px;max-width:100%;height:920px;max-height:96vh;
+    background:#171512;
+    border-radius:44px;
+    padding:12px;
+    box-shadow:0 30px 70px rgba(30,24,16,.45), inset 0 0 0 2px rgba(255,255,255,.08);
+    position:relative;
+    transition:width .3s ease;
+  }
+  [data-design-suite-app-preview-viewport]{
+    width:100%;height:100%;
+    background:var(--paper);
+    border-radius:34px;
+    overflow:hidden;
+    position:relative;
+    display:flex;flex-direction:column;
+  }
+  .app-screen{flex:1;overflow-y:auto;overflow-x:hidden;position:relative;overscroll-behavior:contain}
+  .app-screen::-webkit-scrollbar{width:0}
+  @media (max-width:767px){
+    body{display:block}
+    [data-design-suite-app-preview-shell]{
+      width:min(430px,100%);height:100vh;max-height:none;border-radius:0;
+      padding:0;box-shadow:none;
+    }
+    [data-design-suite-app-preview-viewport]{border-radius:0}
+  }
+  .gesturebar{
+    height:26px;flex:0 0 26px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .gesturebar i{width:120px;height:5px;border-radius:99px;background:rgba(43,43,43,.35)}
+  .footer{
+    text-align:center;padding:12px 0 18px;
+    font-size:11px;color:var(--ink-soft);letter-spacing:1.5px;
+  }
+  .page{position:relative;z-index:1;padding-bottom:10px}
+  .result-panel{display:none}
+  .result-panel.show{display:block;animation:fadeIn .45s ease}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .hero-wrap{padding:10px 20px 0}
+  .hero-img{
+    width:100%;height:212px;object-fit:cover;
+    border-radius:20px 20px 8px 8px;
+    border:1px solid var(--line);
+    box-shadow:0 8px 24px rgba(90,70,40,.12);
+  }
+  .brand{margin:18px 22px 2px;display:flex;align-items:baseline;justify-content:space-between}
+  .brand h1{
+    font-size:30px;font-weight:700;letter-spacing:8px;
+    color:var(--ink);
+  }
+  .brand .seal{
+    font-size:11px;color:var(--cinnabar);
+    border:1.5px solid var(--cinnabar);
+    padding:4px 7px;border-radius:4px;letter-spacing:2px;
+    transform:rotate(-2deg);
+  }
+  .subtitle{margin:6px 22px 0;font-size:13px;color:var(--ink-soft);letter-spacing:3px}
+  .six-chip{
+    margin:12px 20px 0;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;
+  }
+  .chip{
+    background:var(--card);border:1px solid var(--line);border-radius:12px;
+    padding:8px 4px;text-align:center;font-size:12.5px;letter-spacing:2px;
+  }
+  .chip b{display:block;font-size:14px;letter-spacing:2px;font-weight:700}
+  .chip .g{color:var(--cinnabar)}
+  .chip .b{color:var(--ink-soft)}
+  .chip small{display:block;margin-top:2px;color:var(--ink-soft);font-size:10.5px;letter-spacing:1px}
+  .actions{margin:18px 20px 8px;display:flex;flex-direction:column;gap:12px}
+  .btn{
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    min-height:52px;border:none;border-radius:16px;
+    font-family:inherit;font-size:16.5px;letter-spacing:5px;font-weight:600;
+    cursor:pointer;transition:transform .12s ease, box-shadow .2s ease;
+    width:100%;
+  }
+  .btn:active{transform:scale(.98)}
+  .btn-primary{
+    background:var(--cinnabar);color:#FBF4E8;
+    box-shadow:0 10px 22px rgba(176,58,46,.32);
+  }
+  .btn-ghost{
+    background:transparent;color:var(--ink);
+    border:1.5px solid var(--ink);
+  }
+  .hint{
+    margin:14px 30px 0;text-align:center;
+    font-size:12px;color:var(--ink-soft);line-height:1.9;letter-spacing:1.5px;
+  }
+  .disclaimer{
+    margin:10px 24px 18px;text-align:center;
+    font-size:10.5px;color:var(--ink-soft);opacity:.75;line-height:1.7;
+  }
+  /* ============ 结果页 ============ */
+  .result-head{text-align:center;padding:24px 20px 6px}
+  .result-tags{font-size:12px;color:var(--ink-soft);letter-spacing:2px}
+  .result-name{
+    margin-top:8px;font-size:44px;font-weight:700;letter-spacing:14px;
+    text-indent:14px;
+  }
+  .luck-badge{
+    display:inline-flex;align-items:center;gap:8px;
+    margin-top:12px;padding:7px 18px;border-radius:99px;
+    font-size:14px;letter-spacing:4px;font-weight:700;
+  }
+  .luck-good{background:var(--cinnabar);color:#FBF4E8;box-shadow:0 8px 18px rgba(176,58,46,.28)}
+  .luck-bad{background:var(--ink);color:#F2EADA;box-shadow:0 8px 18px rgba(43,43,43,.25)}
+  .luck-mid{background:var(--gold);color:#3A2E18}
+  .cast-info{
+    margin:16px 20px 0;text-align:center;font-size:12px;color:var(--ink-soft);letter-spacing:1.5px;line-height:1.9;
+  }
+  .card{
+    margin:14px 20px 0;background:var(--card);
+    border:1px solid var(--line);border-radius:18px;
+    padding:16px 18px;
+  }
+  .card h3{
+    font-size:14px;letter-spacing:4px;font-weight:700;
+    display:flex;align-items:center;gap:8px;
+  }
+  .card h3::before{content:"";width:4px;height:14px;background:var(--cinnabar);border-radius:2px;display:inline-block}
+  .attrs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+  .attr{text-align:center}
+  .attr .k{font-size:11px;color:var(--ink-soft);letter-spacing:2px}
+  .attr .v{margin-top:4px;font-size:15px;font-weight:700;letter-spacing:2px}
+  .gongue{margin-top:14px;font-size:15px;line-height:2.15;letter-spacing:2.5px;color:var(--ink)}
+  .gongue .zl{color:var(--cinnabar);letter-spacing:4px;font-weight:700}
+  .plain-text{margin-top:12px;font-size:13.5px;line-height:2;color:var(--ink-soft)}
+  /* 简化层断语 */
+  .brief-items{margin:14px 20px 0;display:flex;flex-direction:column;gap:9px}
+  .brief-item{border:1px solid var(--line);border-radius:14px;background:var(--card);padding:12px 14px}
+  .brief-item .bi-head{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;letter-spacing:2px}
+  .brief-item .bi-head .ic{width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;flex:0 0 22px}
+  .brief-item .bi-body{margin-top:6px;font-size:12.5px;color:var(--ink-soft);line-height:1.8}
+  .brief-item .bi-body .bi-advice{color:var(--cinnabar-deep);font-weight:600}
+  .brief-item .bi-body .bi-advice::before{content:"宜 · "}
+  /* 展开按钮 */
+  .toggle-rich{
+    margin:14px 20px 0;
+    width:100%;min-height:48px;border-radius:14px;
+    background:var(--paper-deep);border:1.5px dashed var(--line);
+    font-family:inherit;font-size:14px;letter-spacing:4px;font-weight:600;color:var(--ink-soft);
+    cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;
+  }
+  .toggle-rich:active{transform:scale(.98)}
+  /* 丰富层 */
+  .rich-layer{
+    display:none;margin-top:10px;
+    animation:richIn .4s ease;
+  }
+  .rich-layer.open{display:block}
+  @keyframes richIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}
+  /* 九维星图 */
+  .cog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+  .cog-dim{text-align:center;padding:10px 4px;border-radius:12px;background:var(--card);border:1px solid var(--line)}
+  .cog-dim .d-name{font-size:10px;color:var(--ink-soft);letter-spacing:1px}
+  .cog-dim .d-val{font-size:22px;font-weight:700;margin-top:3px;line-height:1.2}
+  .cog-dim .d-lbl{font-size:10px;margin-top:2px;opacity:.7}
+  .cog-dim.pos{border-color:rgba(176,58,46,.25);background:rgba(176,58,46,.06)}
+  .cog-dim.pos .d-val{color:var(--cinnabar)}
+  .cog-dim.neg{border-color:rgba(59,50,38,.2);background:rgba(59,50,38,.06)}
+  .cog-dim.neg .d-val{color:var(--ink)}
+  .cog-dim.zero{border-color:rgba(185,138,74,.25);background:rgba(185,138,74,.06)}
+  .cog-dim.zero .d-val{color:var(--gold)}
+  .cog-note{margin-top:12px;font-size:10.5px;color:var(--ink-soft);text-align:center;line-height:1.8;letter-spacing:1px}
+  /* 四象季节流动 */
+  .season-flow{margin-top:12px;padding:12px 14px;border-radius:12px;background:var(--paper-deep);border:1px dashed var(--line);text-align:center}
+  .season-flow .sf-title{font-size:13px;font-weight:700;letter-spacing:2px;color:var(--cinnabar)}
+  .season-flow .sf-desc{margin-top:6px;font-size:12px;line-height:1.8;color:var(--ink)}
+  .season-flow .sf-arrow{margin-top:4px;font-size:11px;color:var(--gold);letter-spacing:1px}
+  /* 邻近星图 */
+  .neighbor-map{margin-top:12px;padding:12px 0;text-align:center}
+  .neighbor-map .nm-title{font-size:12px;color:var(--ink-soft);letter-spacing:2px;margin-bottom:10px}
+  .nm-center-wrap{position:relative;width:220px;height:220px;margin:0 auto}
+  .nm-center{
+    position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+    width:64px;height:64px;border-radius:50%;background:var(--cinnabar);color:#FBF4E8;
+    display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;
+    box-shadow:0 4px 14px rgba(176,58,46,.35);z-index:2;letter-spacing:1px;
+  }
+  .nm-node{
+    position:absolute;width:48px;height:48px;border-radius:50%;background:var(--card);
+    border:1.5px solid var(--line);display:flex;flex-direction:column;
+    align-items:center;justify-content:center;font-size:9px;color:var(--ink-soft);
+    z-index:1;
+  }
+  .nm-node .nm-ph{font-size:10px;font-weight:700;color:var(--ink)}
+  .nm-node .nm-dim{font-size:8px;margin-top:1px;opacity:.7}
+  .nm-node.reachable{border-color:var(--cinnabar);background:rgba(176,58,46,.08);color:var(--cinnabar)}
+  .nm-node.reachable .nm-ph{color:var(--cinnabar-deep)}
+  .nm-arrow{position:absolute;width:20px;height:1.5px;background:var(--line);z-index:0}
+  .nm-arrow.reachable{background:var(--cinnabar);opacity:.4}
+  /* 认知洞察 */
+  .cog-insight{margin:14px 0 6px;padding:12px 14px;border-radius:12px;background:var(--paper-deep);border:1px dashed var(--line);font-size:12.5px;line-height:1.9;color:var(--ink);letter-spacing:.5px}
+  .cog-insight strong{color:var(--cinnabar);font-weight:700}
+  /* 精准断语 */
+  .cog-advices{margin:10px 0;display:flex;flex-direction:column;gap:8px}
+  .cog-adv-item{padding:10px 12px;border-radius:10px;background:var(--paper-deep);border:1px solid var(--line)}
+  .cog-adv-item .ca-cat{font-size:11px;color:var(--ink-soft);letter-spacing:1px}
+  .cog-adv-item .ca-txt{margin-top:4px;font-size:12px;line-height:1.7;color:var(--ink)}
+  /* 演化轨迹 */
+  .evo-track{margin-top:12px}
+  .evo-track .evo-title{font-size:12px;color:var(--ink-soft);letter-spacing:2px;margin-bottom:8px;text-align:center}
+  .evo-list{display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap}
+  .evo-dot{
+    width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-size:10px;font-weight:700;border:1.5px solid var(--line);background:var(--card);color:var(--ink);
+  }
+  .evo-dot.current{border-color:var(--cinnabar);background:rgba(176,58,46,.1);color:var(--cinnabar)}
+  .evo-arrow{font-size:12px;color:var(--gold)}
+  .evo-empty{font-size:11px;color:var(--ink-soft);text-align:center}
+  /* 择日辅助 */
+  .day-picker{margin-top:12px;display:flex;gap:8px;align-items:center;justify-content:center}
+  .day-picker input{
+    padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card);
+    font-family:inherit;font-size:13px;color:var(--ink);
+  }
+  .day-picker button{
+    padding:8px 14px;border-radius:10px;background:var(--cinnabar);color:#FBF4E8;
+    border:none;font-family:inherit;font-size:12px;letter-spacing:2px;cursor:pointer;
+  }
+  .day-result{margin-top:10px;padding:10px 12px;border-radius:10px;background:var(--paper-deep);border:1px dashed var(--line);font-size:12px;text-align:center;color:var(--ink)}
+  .day-result b{color:var(--cinnabar)}
+  /* 底部行动 */
+  .result-foot{padding:18px 20px 26px;display:flex;flex-direction:column;gap:12px}
+  .recast{
+    width:100%;min-height:52px;border-radius:16px;
+    background:transparent;border:1.5px solid var(--ink);
+    font-family:inherit;font-size:16px;letter-spacing:5px;font-weight:600;color:var(--ink);
+    cursor:pointer;
+  }
+  /* 择时弹层 */
+  .sheet-mask{
+    position:absolute;inset:0;background:rgba(30,24,16,.45);z-index:20;
+    display:none;align-items:flex-end;
+  }
+  .sheet-mask.open{display:flex;animation:fadeIn .25s ease}
+  .sheet{
+    width:100%;background:var(--paper);border-radius:26px 26px 0 0;
+    padding:18px 20px calc(22px + env(safe-area-inset-bottom));
+    animation:slideUp .3s cubic-bezier(.2,.9,.3,1);
+  }
+  @keyframes slideUp{from{transform:translateY(60px);opacity:.6}to{transform:none;opacity:1}}
+  .sheet h2{font-size:16px;letter-spacing:4px;text-align:center}
+  .sheet-sub{font-size:11.5px;color:var(--ink-soft);text-align:center;margin-top:6px;letter-spacing:1px}
+  .picker{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:18px}
+  .picker label{font-size:11px;color:var(--ink-soft);letter-spacing:1px;text-align:center}
+  .picker select{
+    width:100%;margin-top:6px;padding:10px 4px;text-align:center;
+    border:1px solid var(--line);border-radius:12px;background:var(--card);
+    font-family:inherit;font-size:14px;color:var(--ink);appearance:none;
+  }
+  .lunar-preview{
+    margin-top:16px;text-align:center;font-size:13.5px;color:var(--ink);
+    letter-spacing:2px;background:var(--card);border:1px dashed var(--line);
+    border-radius:14px;padding:12px;
+  }
+  .lunar-preview b{color:var(--cinnabar);font-weight:700}
+  .sheet .btn{margin-top:16px}
+  .sheet .cancel{
+    margin-top:10px;width:100%;background:none;border:none;
+    font-family:inherit;font-size:13px;letter-spacing:3px;color:var(--ink-soft);
+    cursor:pointer;padding:10px;
+  }
+  /* 水墨微纹理 */
+  .ink-veil{position:absolute;inset:0;pointer-events:none;opacity:.5;z-index:0;
+    background:
+      radial-gradient(circle at 12% 8%, rgba(185,138,74,.10) 0, transparent 32%),
+      radial-gradient(circle at 88% 30%, rgba(43,43,43,.05) 0, transparent 28%),
+      radial-gradient(circle at 20% 80%, rgba(176,58,46,.05) 0, transparent 30%);
+  }
+  .gezi{
+    background-image:repeating-linear-gradient(0deg, transparent 0 25px, rgba(43,43,43,.035) 25px 26px),
+    repeating-linear-gradient(90deg, transparent 0 25px, rgba(43,43,43,.035) 25px 26px);
+  }
+  /* 两层切换 */
+  .layer-simple{animation:fadeIn .4s ease}
+  .layer-rich{animation:richIn .45s ease}
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important;transition:none !important}
+  }
+
+</style>
+</head>
+<body>
+  <div data-design-suite-app-preview-shell>
+  <div data-design-suite-app-preview-viewport>
+    <main class="app-screen" id="screen">
+
+      <!-- 主页面：起卦 + 同页结果 -->
+      <section class="page gezi" id="viewMain">
+        <div class="ink-veil"></div>
+        <div class="hero-wrap">
+          <img class="hero-img" data-design-suite-media-slot="hero-ink-art" src="data:image/png;base64,__HERO_INK_ART_BASE64__" alt="袖里乾坤概念水墨插画：山水云气与朱砂月印">
+        </div>
+        <div class="brand">
+          <h1>袖里乾坤</h1>
+          <span class="seal">小六壬</span>
+        </div>
+        <p class="subtitle">六宫问事 · 一卦了然</p>
+
+        <div class="six-chip" id="chipList"></div>
+
+        <div class="actions">
+          <button class="btn btn-primary" id="btnImmediate">即刻起卦</button>
+          <button class="btn btn-ghost" id="btnPickTime">择时起卦</button>
+        </div>
+        <p class="hint">心中默念所问之事，再点起卦。<br>以当下心境，问当下之事。</p>
+        <p class="disclaimer">本应用基于传统小六壬民俗文化，内容仅供娱乐参考，不构成任何决策依据。</p>
+
+        <!-- 结果区（起卦后同页直出） -->
+        <section class="result-panel" id="resultPanel" hidden>
+          <div class="result-head">
+            <div class="result-tags" id="rMeta">属木 · 青龙 · 居东</div>
+            <div class="result-name" id="rName">大安</div>
+            <div class="luck-badge" id="rLuck"></div>
+          </div>
+          <div class="cast-info" id="rTimeInfo"></div>
+
+          <div class="card">
+            <h3>总纲</h3>
+            <div class="attrs" id="rAttrs"></div>
+            <p class="gongue" id="rGongue"></p>
+            <p class="plain-text" id="rPlain"></p>
+          </div>
+
+          <!-- ============ 简化层 ============ -->
+          <div class="layer-simple" id="layerSimple">
+            <!-- 卦象头部：六宫名称 + 四象相位标签 + 认知摘要 -->
+            <div class="card" id="cogBriefHead">
+              <div style="text-align:center;margin-bottom:8px">
+                <span id="cogPhase" class="cog-phase" style="display:inline-block;padding:5px 14px;border-radius:99px;font-size:13px;font-weight:700;letter-spacing:2px">太阳</span>
+                <div id="cogId" style="font-size:11px;color:var(--ink-soft);letter-spacing:1px;margin-top:6px">状态 #0 / 19683</div>
+              </div>
+              <div class="cog-palaces" id="cogPalaces" style="display:flex;justify-content:center;gap:10px;margin:8px 0;flex-wrap:wrap"></div>
+              <div id="cogSummary" style="text-align:center;font-size:13px;color:var(--ink);line-height:1.9;letter-spacing:1px;margin-top:8px"></div>
+            </div>
+
+            <!-- 传统8类断语（简化版） -->
+            <div class="brief-items" id="briefItems"></div>
+
+            <!-- 展开按钮 -->
+            <button class="toggle-rich" id="btnToggleRich">查看认知详情 ↓</button>
+          </div>
+
+          <!-- ============ 丰富层 ============ -->
+          <div class="rich-layer" id="layerRich">
+            <!-- 九维星图 -->
+            <div class="card" id="cogPanel">
+              <h3>九维认知星图</h3>
+              <div class="cog-grid" id="cogGrid"></div>
+              <p class="cog-note">三值基底：−1 收敛 · 0 悬置 · +1 扩张<br>九维空间共 3⁹ = 19,683 个离散认知态</p>
+            </div>
+
+            <!-- 四象季节流动 -->
+            <div class="card">
+              <h3>四象季节流动</h3>
+              <div class="season-flow" id="seasonFlow"></div>
+            </div>
+
+            <!-- 邻近星图 -->
+            <div class="card">
+              <h3>邻近星图</h3>
+              <div class="neighbor-map" id="neighborMap"></div>
+            </div>
+
+            <!-- 认知洞察（长文） -->
+            <div class="card">
+              <h3>认知洞察</h3>
+              <div class="cog-insight" id="cogInsight"></div>
+            </div>
+
+            <!-- 八类精准断语 -->
+            <div class="card">
+              <h3>八类精准断语</h3>
+              <div class="cog-advices" id="cogAdvices"></div>
+            </div>
+
+            <!-- 认知演化轨迹 -->
+            <div class="card">
+              <h3>认知演化轨迹</h3>
+              <div class="evo-track" id="evoTrack"></div>
+            </div>
+
+            <!-- 择日辅助 -->
+            <div class="card">
+              <h3>择日辅助</h3>
+              <div class="day-picker">
+                <input type="date" id="dayPickerInput">
+                <button id="btnDayPick">推算</button>
+              </div>
+              <div class="day-result" id="dayResult" style="display:none"></div>
+            </div>
+          </div>
+
+          <div class="result-foot">
+            <button class="recast" id="btnRecast">再起一卦</button>
+            <p class="disclaimer">卦象为一种传统民俗观察，愿君以平常心看待，专心于当下实务。</p>
+          </div>
+        </section>
+      </section>
+
+      <!-- 择时弹层 -->
+      <div class="sheet-mask" id="sheetMask">
+        <div class="sheet">
+          <h2>择时起卦</h2>
+          <p class="sheet-sub">选择公历年月日与时辰，将自动换算为农历月日时</p>
+          <div class="picker">
+            <div><label>年</label><select id="selYear"></select></div>
+            <div><label>月</label><select id="selMonth"></select></div>
+            <div><label>日</label><select id="selDay"></select></div>
+            <div><label>时辰</label><select id="selHour"></select></div>
+          </div>
+          <div class="lunar-preview" id="lunarPreview"></div>
+          <button class="btn btn-primary" id="btnCastPick">以此起卦</button>
+          <button class="cancel" id="btnCancelSheet">取消</button>
+        </div>
+      </div>
+
+    </main>
+
+    <div class="gesturebar"><i></i></div>
+    <div class="footer">© 袖里乾坤 · 版权所有 · 润泽</div>
+  </div>
+</div>
+<script>
+(function () {
+  'use strict';
+
+  /* ================= 认知洞察数据源（内联） ================= */
+var COG_CORE_INSIGHTS = {
+  '大安·太阳': {
+    title: '盛夏古木',
+    insight: '如千年古树立于盛夏正午，根系深扎土中，枝叶繁茂遮天。此刻你的**本心**（树根）极度稳固，**敏感度**（枝叶）全面扩张，能感知到环境的每一丝变化。**动力**（树干汁液）奔涌向上，**走向**（树冠朝向）明确指向阳光。这是一个"稳定到膨胀"的状态——稳固是优势，但膨胀本身成为新的风险。古木若只向上生长不顾根基承载，终有倾倒之日。',
+    season: '盛夏正午——稳定中孕育着过度的扩张冲动',
+    tension: '稳固与膨胀的张力',
+    advice: '顺势而为，但设边界。你的根基足够深，可以承受扩张，但要定期回望树根，确认土壤没有板结。',
+    dims: { awareness: 1, existence: 1, coupling: 1, identity: 1, letting: -1, direction: 1, energy: 1, action: 1, rhythm: 1 }
+  },
+  '大安·少阳': {
+    title: '初春嫩芽',
+    insight: '如古木在初春抽出的第一缕嫩芽，裹着越冬的褐色芽鳞，内里却是翠绿的生机。此刻你的**本心**依然古木般沉稳，但**敏感度**开始从冬眠中苏醒，**动力**从冰封的土壤里缓缓回升。**走向**不再固守原地，而是试探着向光的方向偏移。这是一个"稳定中孕育变化"的过渡期——既有古木的定力，又有新芽的渴望。',
+    season: '初春回暖——稳定中孕育温和的生长冲动',
+    tension: '守成与试探的张力',
+    advice: '以古木之稳托新芽之探。不必急于全面展开，让变化从最有把握的维度开始渗透。',
+    dims: { awareness: 1, existence: 1, coupling: 1, identity: 0, letting: 0, direction: 1, energy: 0, action: 0, rhythm: 0 }
+  },
+  '大安·平衡': {
+    title: '四季常青',
+    insight: '如古木在四季轮转中始终保持同样的苍翠，不随春花秋叶而盛衰。此刻你的**本心**与**敏感度**、**动力**与**走向**达成一种精妙的均衡——既非扩张也非收敛，而是悬停在一个自洽的节点上。**连接感**（树皮与空气的交换）平稳，**放手力**（落叶的意愿）适中，**身份感**（年轮的记忆）清晰但不执着。这是大安最理想的"纯安"状态——各维度和谐共振。',
+    season: '春分秋分——各维度和谐共振的均衡点',
+    tension: '无显著张力，内在自洽',
+    advice: '维持现状即是胜利。此刻不宜扰动任何维度，让各股力量在无声中自我调适。',
+    dims: { awareness: 0, existence: 1, coupling: 0, identity: 0, letting: 0, direction: 0, energy: 0, action: 0, rhythm: 0 }
+  },
+  '大安·少阴': {
+    title: '深秋落叶',
+    insight: '如古木在深秋开始落叶，叶片从翠绿转为金黄，纷纷归于树根。**敏感度**（叶片的感知）逐渐收敛，**动力**（汁液流动）向下沉降，**走向**（树冠朝向）开始回望根部。但**本心**（树干）依然稳固——落叶不是死亡，是古木保存能量的智慧。**连接感**（树皮与空气）变得稀疏，**放手力**（落叶的自然）增强，这是一个"稳定中内收"的整理期。',
+    season: '深秋初霜——稳定中能量开始向内沉降',
+    tension: '收缩与保存的张力',
+    advice: '顺势内收，以守代攻。此刻的收敛是为了下一个生长季的蓄力，不要误以为是衰败。',
+    dims: { awareness: -1, existence: 1, coupling: -1, identity: 0, letting: 1, direction: -1, energy: -1, action: -1, rhythm: -1 }
+  },
+  '大安·太阴': {
+    title: '寒冬古木',
+    insight: '如古木在寒冬褪去所有叶片，枝干裸露于风雪之中。此刻你的**敏感度**降至最低（无叶可感），**动力**几近停滞（汁液凝固），**走向**完全内指（枝干蜷缩）。但**本心**——那根扎入冻土的根系——依然在无声中呼吸。古木的寒冬不是死亡，是生命选择了最深沉的等待。**身份感**（年轮的沉淀）反而因褪去一切外在而更加清晰。',
+    season: '深冬寒夜——稳定到极致的内缩与等待',
+    tension: '外在沉寂与内在坚守的张力',
+    advice: '深守本心，任外界风雪呼啸。此刻任何扩张都是徒劳，唯有根系在冻土下的微弱呼吸是真实的。',
+    dims: { awareness: -1, existence: 1, coupling: -1, identity: 1, letting: 1, direction: -1, energy: -1, action: -1, rhythm: -1 }
+  },
+  '大安·悬置': {
+    title: '雾中古木',
+    insight: '如古木被晨雾笼罩，枝叶模糊，轮廓隐约可见但细节尽失。此刻你的**敏感度**、**动力**、**走向**都被雾气稀释，只剩**本心**（树干）在雾中若隐若现地矗立。**连接感**（树皮与雾气的水汽交换）变得稀薄而不可捉摸，**放手力**（雾气的不执着）异常高涨——因为没有什么可执着的。这是大安最不"安"的状态——稳定感被不确定性侵蚀。',
+    season: '晨雾弥漫——稳定感被不确定性侵蚀',
+    tension: '确定与不确定的张力',
+    advice: '不急于驱散迷雾，让古木在雾中静默站立。此刻不宜做任何需要清晰判断的决策。',
+    dims: { awareness: 0, existence: 1, coupling: 0, identity: 0, letting: 1, direction: 0, energy: 0, action: 0, rhythm: 0 }
+  },
+  '大安·杂化': {
+    title: '风雨古木',
+    insight: '如古木在风雨交加中，一侧枝叶被狂风压弯，另一侧却迎雨舒展。**敏感度**在不同方向上截然相反——对某些信号极度敏感，对另一些全然麻木。**动力**在枝干间冲撞，形成内部的涡流。**走向**被风雨撕扯得支离破碎，没有一个统一的方向。但**本心**（树干）依然在风雨中屹立——这是大安最考验根基的状态：外在混乱，内在仍要求稳。',
+    season: '风雨交加——稳定遭遇外在混乱的冲击',
+    tension: '统一与分裂的张力',
+    advice: '以树干之稳应对枝叶之乱。不必试图统一所有矛盾的方向，先确认根基无损，再逐一梳理。',
+    dims: { awareness: 1, existence: 1, coupling: -1, identity: -1, letting: -1, direction: 1, energy: 1, action: -1, rhythm: 0 }
+  },
+
+  '留连·太阳': {
+    title: '盛夏深潭',
+    insight: '如深潭在盛夏正午，水面平静如镜，水底却涌动着看不见的暗流。此刻你的**本心**（潭底）虽然深潜，但**敏感度**（水面反光）全面扩张，能映照天空的每一朵云。**动力**（暗流）在深处加速，**走向**（水流方向）被表面的平静掩盖。留连的"缓"在太阳态下变成了一种"深层的活跃"——表面不动声色，内里波涛汹涌。',
+    season: '盛夏正午——深层的暗流被表面的平静掩盖',
+    tension: '表面与深层的张力',
+    advice: '不要轻信水面的平静。此刻的暗流正在积蓄力量，顺势而为但要设防——水满则溢。',
+    dims: { awareness: 1, existence: -1, coupling: -1, identity: -1, letting: 1, direction: 1, energy: 1, action: 1, rhythm: 1 }
+  },
+  '留连·少阳': {
+    title: '初春解冻',
+    insight: '如深潭在初春开始解冻，冰层边缘出现裂纹，潭水从冰下缓缓渗出。**敏感度**从冰封的隔绝中苏醒，**动力**（暗流）开始试探性地流动，**走向**（水流方向）从完全停滞转向轻微偏移。留连的"缓"在这个相位下有了"松动"的迹象——不是突然的破冰，而是裂纹的缓慢扩展。',
+    season: '初春回暖——冰封开始松动，暗流试探性流动',
+    tension: '停滞与松动的张力',
+    advice: '让裂纹自然扩展，不要急于破冰。此刻的松动是真实的，但力量还不足以支撑大的行动。',
+    dims: { awareness: 0, existence: -1, coupling: -1, identity: 0, letting: 1, direction: 1, energy: 0, action: 0, rhythm: 0 }
+  },
+  '留连·平衡': {
+    title: '四季深潭',
+    insight: '如深潭在四季轮转中始终保持着同样的水位——不增不减，不浊不清。此刻你的**本心**（潭底泥沙）与**敏感度**（水面）达成一种默契：你不搅动我，我不淹没你。**动力**（暗流）与**走向**（水流方向）处于一种精妙的平衡——暗流在潭底打转却不外溢，方向在封闭中循环却不突破。',
+    season: '四季如一——封闭中的自洽循环',
+    tension: '封闭与开放的张力',
+    advice: '接受封闭即是当下最优解。强行打开潭口可能引入浑浊，保持循环即是净化。',
+    dims: { awareness: 0, existence: -1, coupling: 0, identity: 0, letting: 1, direction: 0, energy: 0, action: 0, rhythm: 0 }
+  },
+  '留连·少阴': {
+    title: '深秋沉水',
+    insight: '如深潭在深秋水位下降，水面缩进岸边的芦苇丛中，露出潮湿的淤泥。**敏感度**（水面面积）收缩，**动力**（暗流）减速，**走向**（水流方向）指向更深处。留连的"缓"在这个相位下变成"下沉"——不是停滞，而是向更深、更暗、更不可见的地方移动。',
+    season: '深秋水位下降——向更深更暗处沉降',
+    tension: '可见与不可见的张力',
+    advice: '顺应下沉的趋势，但不要溺于淤泥。此刻向深处去是为了寻找更纯净的源头。',
+    dims: { awareness: -1, existence: -1, coupling: 0, identity: 0, letting: 1, direction: -1, energy: -1, action: -1, rhythm: -1 }
+  },
+  '留连·太阴': {
+    title: '寒冬冰潭',
+    insight: '如深潭在寒冬完全封冻，冰层厚到可以承载行人。此刻你的**敏感度**被冰层完全隔绝，**动力**在冰下凝固成静止的水柱，**走向**失去所有方向——只有向下，但深处也是黑暗。**本心**（潭底泥沙）在冰封中被遗忘，**身份感**（潭的边界）因冰层的扩展而变得模糊——是潭还是冰？',
+    season: '深冬封冻——隔绝、凝固、失去边界',
+    tension: '存在与消融的张力',
+    advice: '在冰层下保持泥沙的呼吸。此刻任何破冰的企图都可能引发冰裂，等待是唯一的智慧。',
+    dims: { awareness: -1, existence: -1, coupling: -1, identity: -1, letting: 1, direction: -1, energy: -1, action: -1, rhythm: -1 }
+  },
+  '留连·悬置': {
+    title: '雾中深潭',
+    insight: '如深潭被浓雾笼罩，水面与空气融为一体，分不清哪里是水、哪里是雾。**敏感度**被雾气稀释成无边界的感知，**动力**（暗流）在雾中迷失方向，**走向**（水流方向）在雾的旋转中消失。留连的"缓"在悬置态下变成"悬浮"——不在水中，不在空中，而在一个无重力的夹缝里。',
+    season: '晨雾弥漫——水与雾的边界消失',
+    tension: '实体与虚空的张力',
+    advice: '不急于确认自己的位置。此刻的悬浮是过渡期，等待雾散自然见水。',
+    dims: { awareness: 0, existence: -1, coupling: 0, identity: 0, letting: 1, direction: 0, energy: 0, action: 0, rhythm: 0 }
+  },
+  '留连·杂化': {
+    title: '风雨深潭',
+    insight: '如深潭在暴雨中，一侧雨水砸出密集的水花，另一侧却被岸边的古木遮挡。**敏感度**在不同方向截然相反——对雨滴极度敏感，对古木遮蔽区全然麻木。**动力**（雨水+暗流+风的合力）形成混乱的漩涡，**走向**（水流方向）被三种力量撕扯。留连的"缓"在杂化态下变成"被动的混乱"——不主动搅动，却被外界搅得不得安宁。',
+    season: '暴雨倾盆——被动卷入外在的混乱',
+    tension: '被动与混乱的张力',
+    advice: '承认混乱是此刻的真实状态，不要试图用"缓"来逃避。找出最混乱的维度，优先稳定它。',
+    dims: { awareness: 1, existence: -1, coupling: 1, identity: -1, letting: 1, direction: 1, energy: 1, action: -1, rhythm: 0 }
+  },
+
+  '速喜·太阳': {
+    title: '盛夏烈焰',
+    insight: '如烈焰在盛夏正午燃烧到最旺，火焰的颜色从橙红转为白炽，温度高到连空气都在颤抖。此刻你的**动力**（火焰高度）全面爆发，**敏感度**（火焰对风的反应）极度敏锐，**走向**（火焰的舔舐方向）明确指向所有可燃之物。速喜的"快"在太阳态下变成"炽烈"——不是快速的喜悦，而是燃烧到失控边缘的狂喜。',
+    season: '盛夏正午——燃烧到白炽的狂喜',
+    tension: '燃烧与焚毁的张力',
+    advice: '享受此刻的炽烈，但要预设防火边界。最旺的火焰离灰烬只有一步之遥。',
+    dims: { awareness: 1, existence: 1, coupling: 1, identity: 1, letting: -1, direction: 1, energy: 1, action: 1, rhythm: 1 }
+  },
+  '速喜·少阳': {
+    title: '初春火苗',
+    insight: '如初春的第一缕火苗，在残冬的枯枝间试探性地跳跃。**动力**（火苗高度）尚不高，但**敏感度**（对风的反应）已经敏锐——春风一吹，火焰便欢快地舞蹈。**走向**（火焰蔓延方向）沿着枯枝缓慢推进，留下一条黑色的痕迹。速喜的"快"在这个相位下是"初生的快"——带着试探和不确定，但潜力已经可见。',
+    season: '初春回暖——试探性燃烧的初生喜悦',
+    tension: '试探与绽放的张力',
+    advice: '给火苗足够的空间和氧气。此刻不宜压制，也不宜加速——让它按自己的节奏生长。',
+    dims: { awareness: 1, existence: 1, coupling: 1, identity: 0, letting: -1, direction: 1, energy: 0, action: 0, rhythm: 0 }
+  },
+  '速喜·平衡': {
+    title: '四季温火',
+    insight: '如篝火在四季轮转中始终保持着同样的高度——不猛不弱，不烫不凉。**动力**（火焰高度）稳定，**敏感度**（对风的反应）适中，**走向**（火焰蔓延方向）可控。速喜的"快"在这个相位下被驯服了——不是狂喜的爆发，而是温热的持久。**放手力**（不再添柴的意愿）与**行动力**（添柴的动作）达成默契：维持，但不扩张。',
+    season: '四季如一——被驯服的温热喜悦',
+    tension: '维持与扩张的张力',
+    advice: '保持当前的温度即是最佳策略。添柴太多会过旺，撤柴太多会熄灭。',
+    dims: { awareness: 0, existence: 1, coupling: 0, identity: 0, letting: 0, direction: 0, energy: 0, action: 0, rhythm: 0 }
+  },
+  '速喜·少阴': {
+    title: '深秋余烬',
+    insight: '如篝火在深秋逐渐熄灭，火焰退化为暗红的余烬，偶尔迸出一两点火星。**动力**（火焰高度）急剧下降，**敏感度**（对风的反应）减弱，**走向**（火焰蔓延方向）收缩到只剩中心的一点温热。速喜的"快"在这个相位下变成"余韵"——不是喜悦的终结，而是喜悦换一种形式存在：从可见的火焰转为可感的温度。',
+    season: '深秋降温——从火焰退化为余烬',
+    tension: '消逝与转化的张力',
+    advice: '不急于复燃，让余烬的温度自然散去。此刻的余韵比强行复燃更接近真实。',
+    dims: { awareness: -1, existence: 1, coupling: -1, identity: 0, letting: 0, direction: -1, energy: -1, action: -1, rhythm: -1 }
+  },
+  '速喜·太阴': {
+    title: '寒冬死灰',
+    insight: '如篝火在寒冬彻底熄灭，只剩一堆苍白的灰烬，偶尔被风吹起一阵烟尘。**动力**完全消失，**敏感度**降至只对强风有反应，**走向**失去所有方向——只有向上飘散的烟尘。速喜的"快"在这个相位下变成"灰烬的飞散"——曾经炽烈的喜悦，如今只剩轻盈的虚无。',
+    season: '深冬寒夜——从灰烬到虚无',
+    tension: '虚无与记忆的张力',
+    advice: '接受灰烬的状态。此刻强行复燃只会得到短暂的虚火，不如让灰烬归于尘土。',
+    dims: { awareness: -1, existence: 1, coupling: -1, identity: 1, letting: 1, direction: -1, energy: -1, action: -1, rhythm: -1 }
+  },
+  '速喜·悬置': {
+    title: '雾中烟火',
+    insight: '如烟火在浓雾中发射，火焰的光被雾气散射成模糊的光晕。**动力**（火焰高度）尚可，但**敏感度**（对风的反应）被雾气干扰得混乱，**走向**（火焰蔓延方向）在雾中消失。速喜的"快"在悬置态下变成"模糊的绽放"——你知道喜悦在发生，但看不清它在哪里、要去哪里。',
+    season: '晨雾弥漫——喜悦在雾中模糊绽放',
+    tension: '清晰与模糊的张力',
+    advice: '不急于确认喜悦的形状。让烟火在雾中自行消散，此刻的模糊是真实的。',
+    dims: { awareness: 0, existence: 1, coupling: 0, identity: 0, letting: 1, direction: 0, energy: 0, action: 0, rhythm: 0 }
+  },
+  '速喜·杂化': {
+    title: '风雨烈焰',
+    insight: '如篝火在暴风雨中，一侧被雨水浇得滋滋冒烟，另一侧却在风助下燃得更旺。**敏感度**在不同方向截然相反——对风极度敏感，对雨全然抵抗。**动力**被撕扯成两个极端：一半是蒸发的白汽，一半是炽烈的火焰。**走向**（火焰蔓延方向）完全不可预测。速喜的"快"在杂化态下变成"撕裂的快"——喜悦被外力撕成两半。',
+    season: '风雨交加——喜悦被外力撕裂',
+    tension: '撕裂与完整的张力',
+    advice: '接受喜悦的两面性。不要试图统一矛盾——此刻的撕裂本身就是真实的状态。',
+    dims: { awareness: 1, existence: 1, coupling: -1, identity: -1, letting: -1, direction: 1, energy: 1, action: -1, rhythm: 0 }
+  },
+
+  '赤口·太阳': {
+    title: '盛夏利刃',
+    insight: '如利刃在盛夏正午反射阳光，刀锋的光芒刺眼到无法直视。**动力**（挥刀的速度）全面爆发，**敏感度**（对障碍的反应）极度敏锐，**走向**（劈砍方向）明确指向所有阻碍之物。赤口的"争"在太阳态下变成"切割"——不是争论的交锋，而是刀锋对骨骼的精准解剖。**身份感**（刀锋的锋利度）膨胀到认为自己是唯一的存在。',
+    season: '盛夏正午——利刃反射白炽光芒',
+    tension: '切割与完整的张力',
+    advice: '确认你的刀锋指向正确的目标。此刻的切割力是真实的，但误伤无辜的后果也是真实的。',
+    dims: { awareness: 1, existence: -1, coupling: -1, identity: -1, letting: -1, direction: 1, energy: 1, action: 1, rhythm: 1 }
+  },
+  '赤口·少阳': {
+    title: '初春磨刀',
+    insight: '如铁匠在初春开始磨刀，石粉飞溅，刀锋从钝到利的过渡。**动力**（磨刀的速度）不急不缓，**敏感度**（对刀锋曲线的感知）在磨砺中逐渐敏锐，**走向**（刀刃朝向）从钝圆的侧面转向锋利的正面。赤口的"争"在这个相位下是"准备中的争"——不是已经投入战斗，而是在为战斗做准备。',
+    season: '初春回暖——从钝到利的磨刀声',
+    tension: '钝与利的张力',
+    advice: '享受磨刀的过程，不要急于试刀。此刻的钝是为了未来的利。',
+    dims: { awareness: 1, existence: -1, coupling: -1, identity: 0, letting: -1, direction: 1, energy: 0, action: 0, rhythm: 0 }
+  },
+  '赤口·平衡': {
+    title: '四季匕首',
+    insight: '如匕首在四季轮转中始终保持着同样的锋利——不更钝，不更利，不锈不亮。**动力**（挥动的速度）稳定，**敏感度**（对障碍的反应）适中，**走向**（劈砍方向）可控。赤口的"争"在这个相位下被驯服了——不是战斗的激情，而是常备的警觉。**放手力**（收刀的意愿）与**行动力**（拔刀的动作）达成默契：随时准备，但不轻启。',
+    season: '四季如一——常备的警觉而非战斗',
+    tension: '警觉与轻启的张力',
+    advice: '保持刀锋的锋利，但不要轻易拔出。此刻的威慑力比实际的切割更有价值。',
+    dims: { awareness: 0, existence: -1, coupling: 0, identity: 0, letting: 0, direction: 0, energy: 0, action: 0, rhythm: 0 }
+  },
+  '赤口·少阴': {
+    title: '深秋卷刃',
+    insight: '如利刃在深秋开始卷刃，刀锋从直线变成锯齿，切割时发出撕裂的声音。**动力**（挥刀的速度）减慢，**敏感度**（对障碍的反应）迟钝，**走向**（劈砍方向）开始回避硬物。赤口的"争"在这个相位下变成"回避的争"——不是正面的交锋，而是选择软柿子。',
+    season: '深秋降温——刀锋卷刃后的回避',
+    tension: '交锋与回避的张力',
+    advice: '承认刀锋已钝，不要硬砍。此刻的回避不是懦弱，是对工具的尊重。',
+    dims: { awareness: -1, existence: -1, coupling: 0, identity: 0, letting: 0, direction: -1, energy: -1, action: -1, rhythm: -1 }
+  },
+  '赤口·太阴': {
+    title: '寒冬锈刀',
+    insight: '如利刃在寒冬被弃置，刀锋结满红褐色的锈斑，曾经的光芒被铁锈吞噬。**动力**完全消失，**敏感度**降至只对自己生锈的缓慢过程有反应，**走向**失去所有方向——只有向下坠落，被重力拉入泥土。赤口的"争"在这个相位下变成"锈的沉默"——曾经最锋利的存在，如今连切割自己的锈迹都做不到。',
+    season: '深冬寒夜——被铁锈吞噬的沉默',
+    tension: '锋利与锈蚀的张力',
+    advice: '接受锈蚀的状态。此刻任何拔刀的动作都会让锈斑脱落、刀身断裂。',
+    dims: { awareness: -1, existence: -1, coupling: -1, identity: -1, letting: 1, direction: -1, energy: -1, action: -1, rhythm: -1 }
+  },
+  '赤口·悬置': {
+    title: '雾中刀光',
+    insight: '如利刃在浓雾中挥动，刀光被雾气散射成模糊的银弧。**动力**（挥刀的速度）尚可，但**敏感度**（对障碍的反应）被雾气干扰得混乱，**走向**（劈砍方向）在雾中消失。赤口的"争"在悬置态下变成"盲目的挥砍"——你知道自己在战斗，但看不清敌人在哪里。',
+    season: '晨雾弥漫——盲目的挥砍',
+    tension: '战斗与盲目的张力',
+    advice: '停止挥砍，等待雾散。此刻的盲目攻击只会伤及无辜或空耗体力。',
+    dims: { awareness: 0, existence: -1, coupling: 0, identity: 0, letting: 1, direction: 0, energy: 0, action: 0, rhythm: 0 }
+  },
+  '赤口·杂化': {
+    title: '风雨刀舞',
+    insight: '如刀客在暴风雨中起舞，雨水模糊了刀光，狂风改变了刀路。**敏感度**在不同方向截然相反——对风声极度敏感，对雨声全然抵抗。**动力**被撕扯成两个极端：一半是风助的加速，一半是雨阻的减速。**走向**（刀路方向）完全不可预测。赤口的"争"在杂化态下变成"混乱的舞蹈"——不是战斗，是求生。',
+    season: '风雨交加——混乱中的求生之舞',
+    tension: '混乱与秩序的张力',
+    advice: '不求统一刀路，只求不被风雨击倒。此刻的混乱是真实的环境，适应它而非征服它。',
+    dims: { awareness: 1, existence: -1, coupling: 1, identity: -1, letting: -1, direction: 1, energy: 1, action: -1, rhythm: 0 }
+  },
+
+  '小吉·太阳': {
+    title: '盛夏和风',
+    insight: '如和风在盛夏正午吹拂，带着花香的温度，不急不躁地掠过皮肤。**动力**（风速）温和但全面，**敏感度**（对温度的反应）舒适，**走向**（风向）明确但不强势。小吉的"和"在太阳态下变成"煦暖的和"——不是妥协的调和，而是阳光般自然的融合。',
+    season: '盛夏正午——煦暖而全面的融合',
+    tension: '融合与淹没的张力',
+    advice: '享受此刻的煦暖，但不要试图温暖所有人。和风的边界在于——它吹过，但不改变万物。',
+    dims: { awareness: 1, existence: 1, coupling: 1, identity: 1, letting: 1, direction: 1, energy: 1, action: 1, rhythm: 1 }
+  },
+  '小吉·少阳': {
+    title: '初春微风',
+    insight: '如初春的第一缕微风，从南边的窗口吹入，带着解冻土壤的湿润气息。**动力**（风速）尚弱，但**敏感度**（对气味的反应）已经敏锐——你能闻到风中的泥土味。**走向**（风向）从单一的南风向四周扩散。小吉的"和"在这个相位下是"初生的和"——带着试探，但潜力可见。',
+    season: '初春回暖——试探性的温和融合',
+    tension: '试探与扩散的张力',
+    advice: '让微风自然扩散，不要急于扇动。此刻的温和是真实的，但力量还不足以改变大局。',
+    dims: { awareness: 1, existence: 1, coupling: 1, identity: 0, letting: 1, direction: 1, energy: 0, action: 0, rhythm: 0 }
+  },
+  '小吉·平衡': {
+    title: '四季清风',
+    insight: '如清风在四季轮转中始终保持着同样的温度和湿度——不冷不热，不干不湿。**动力**（风速）稳定，**敏感度**（对温度的反应）适中，**走向**（风向）可控。小吉的"和"在这个相位下是"常态的和"——不是特殊的恩赐，而是日常的背景。',
+    season: '四季如一——常态的背景之和',
+    tension: '背景与突出的张力',
+    advice: '把此刻的和当作呼吸一样自然。不必感恩，不必珍惜——它就是存在本身。',
+    dims: { awareness: 0, existence: 1, coupling: 0, identity: 0, letting: 1, direction: 0, energy: 0, action: 0, rhythm: 0 }
+  },
+  '小吉·少阴': {
+    title: '深秋凉风',
+    insight: '如秋风在深秋开始变凉，从温和转向刺骨，带着落叶的萧瑟。**动力**（风速）不减，但**温度**下降，**走向**（风向）开始转向北方。小吉的"和"在这个相位下变成"凉薄的和"——不是温暖的融合，而是疏离的共存。',
+    season: '深秋降温——从温暖到凉薄的疏离',
+    tension: '温暖与凉薄的张力',
+    advice: '接受凉薄是"和"的另一种形态。此刻的疏离不是决裂，是季节的自然更替。',
+    dims: { awareness: -1, existence: 1, coupling: -1, identity: 0, letting: 1, direction: -1, energy: -1, action: -1, rhythm: -1 }
+  },
+  '小吉·太阴': {
+    title: '寒风刺骨',
+    insight: '如寒风在寒冬彻底变成刺骨的利刃，切割皮肤，穿透衣物。**动力**（风速）可能不强，但**温度**的杀伤力极大，**走向**（风向）只有一个目的——带走所有热量。小吉的"和"在这个相位下变成"冻的和"——不是融合的和谐，而是被冻结的静止。',
+    season: '深冬寒夜——冻的静止而非融合',
+    tension: '静止与死亡的张力',
+    advice: '在冻的静止中保持内部的温暖。此刻的"和"不是与外界融合，是与自己和解。',
+    dims: { awareness: -1, existence: 1, coupling: -1, identity: 1, letting: 1, direction: -1, energy: -1, action: -1, rhythm: -1 }
+  },
+  '小吉·悬置': {
+    title: '雾中风息',
+    insight: '如和风在浓雾中失去方向，雾气太重，风推不动，只能在原地打转。**动力**（风速）被雾气阻尼，**敏感度**（对温度的反应）被雾气稀释，**走向**（风向）在雾中消失。小吉的"和"在悬置态下变成"无力的和"——你想融合，但找不到融合的对象。',
+    season: '晨雾弥漫——想融合却找不到对象',
+    tension: '融合与孤独的张力',
+    advice: '不急于寻找融合的对象。让风在雾中休息，此刻的孤独是过渡期。',
+    dims: { awareness: 0, existence: 1, coupling: 0, identity: 0, letting: 1, direction: 0, energy: 0, action: 0, rhythm: 0 }
+  },
+  '小吉·杂化': {
+    title: '风雨交加的和',
+    insight: '如和风在暴风雨中，一侧被狂风撕成碎片，另一侧却在雨幕中保持温柔。**敏感度**在不同方向截然相反——对风极度敏感，对雨全然抵抗。**动力**被撕扯成两个极端：一半是暴风的怒吼，一半是细雨的轻吟。**走向**（风向）完全不可预测。小吉的"和"在杂化态下变成"碎片化的和"——不是统一的融合，是局部的妥协。',
+    season: '风雨交加——碎片化的局部妥协',
+    tension: '统一与碎片的张力',
+    advice: '接受碎片化的和。不要试图统一所有矛盾——此刻的局部妥协本身就是智慧。',
+    dims: { awareness: 1, existence: 1, coupling: -1, identity: -1, letting: 1, direction: 1, energy: 1, action: -1, rhythm: 0 }
+  },
+
+  '空亡·太阳': {
+    title: '盛夏虚空',
+    insight: '如盛夏正午的虚空，阳光炽烈到让影子消失，万物在强光下失去轮廓。**动力**（光的强度）全面爆发，但**敏感度**（对阴影的感知）完全丧失——没有阴影就没有深度。**走向**（光线方向）明确指向正下方，但正下方只有虚无。空亡的"空"在太阳态下变成"满溢的空"——不是无物的空，是被过度填充后的窒息。',
+    season: '盛夏正午——被过度填充后的窒息之空',
+    tension: '满溢与虚空的张力',
+    advice: '承认此刻的满溢是另一种形式的空。强光之下，万物平等地失去轮廓——包括你自己。',
+    dims: { awareness: 1, existence: -1, coupling: -1, identity: -1, letting: 1, direction: 1, energy: 1, action: 1, rhythm: 1 }
+  },
+  '空亡·少阳': {
+    title: '初春融冰',
+    insight: '如初春冰面开始融化，裂缝中出现第一缕活水，但冰层依然覆盖着大部分水面。**动力**（融化的速度）缓慢但可见，**敏感度**（对温度变化的反应）敏锐——你能感觉到冰下的流动。**走向**（水流方向）从冰层的裂缝中向外渗透。空亡的"空"在这个相位下是"正在形成的空"——不是绝对的虚无，是冰与水的过渡期。',
+    season: '初春回暖——冰与水的过渡期',
+    tension: '实体与虚空的张力',
+    advice: '欣赏裂缝中的活水，但不要急于破冰。此刻的空正在形成，给它时间。',
+    dims: { awareness: 1, existence: -1, coupling: -1, identity: 0, letting: 1, direction: 1, energy: 0, action: 0, rhythm: 0 }
+  },
+  '空亡·平衡': {
+    title: '四季空洞',
+    insight: '如洞穴在四季轮转中始终保持着同样的黑暗——不深不浅，不明不暗，不冷不热。**动力**（洞内气流）稳定，**敏感度**（对光线的反应）适中，**走向**（气流方向）循环。空亡的"空"在这个相位下是"常态的空"——不是特殊的缺失，而是存在的背景。',
+    season: '四季如一——常态的黑暗背景',
+    tension: '背景与前景的张力',
+    advice: '把此刻的空当作画布。画布本身不是画，但没有画布就没有画。',
+    dims: { awareness: 0, existence: -1, coupling: 0, identity: 0, letting: 1, direction: 0, energy: 0, action: 0, rhythm: 0 }
+  },
+  '空亡·少阴': {
+    title: '深秋陷落',
+    insight: '如洞穴在深秋开始下沉，洞顶的石块松动，地面出现新的裂缝。**动力**（下沉的速度）缓慢但持续，**敏感度**（对震动的反应）增强——你能听到石块摩擦的声音。**走向**（下沉方向）指向更深的黑暗。空亡的"空"在这个相位下变成"扩大的空"——不是静止的虚无，是正在吞噬更多的虚空。',
+    season: '深秋降温——正在扩大的虚空',
+    tension: '稳定与崩塌的张力',
+    advice: '在扩大的虚空中保持站立。此刻的下沉不是结束，是洞穴在寻找新的形状。',
+    dims: { awareness: -1, existence: -1, coupling: 0, identity: 0, letting: 1, direction: -1, energy: -1, action: -1, rhythm: -1 }
+  },
+  '空亡·太阴': {
+    title: '寒冬深渊',
+    insight: '如洞穴在寒冬彻底坍塌，入口被冰雪封死，内部只剩绝对的黑暗和寂静。**动力**完全消失，**敏感度**降至只对温度有反应，**走向**失去所有方向——只有向下，但深处也是同样的黑暗。空亡的"空"在这个相位下变成"深渊的空"——不是可以填充的容器，是不可测量的缺失。',
+    season: '深冬寒夜——不可测量的深渊之空',
+    tension: '存在与缺失的张力',
+    advice: '在深渊中保持呼吸。此刻的空是不可测量的，但你的呼吸是可测量的——它是你与空之间的边界。',
+    dims: { awareness: -1, existence: -1, coupling: -1, identity: -1, letting: 1, direction: -1, energy: -1, action: -1, rhythm: -1 }
+  },
+  '空亡·悬置': {
+    title: '雾中空穴',
+    insight: '如洞穴被浓雾灌满，雾气从洞口涌入，填满所有缝隙，让洞穴变成雾的一部分。**动力**（气流）被雾气阻尼，**敏感度**（对光线的反应）被雾气稀释，**走向**（气流方向）在雾中消失。空亡的"空"在悬置态下变成"被填充的空"——你想保留虚空，但外界不断涌入。',
+    season: '晨雾弥漫——被外界填充的虚空',
+    tension: '保留与涌入的张力',
+    advice: '接受被填充的空。此刻的雾气不是入侵，是虚空与外界达成的新平衡。',
+    dims: { awareness: 0, existence: -1, coupling: 0, identity: 0, letting: 1, direction: 0, energy: 0, action: 0, rhythm: 0 }
+  },
+  '空亡·杂化': {
+    title: '风雨废墟',
+    insight: '如洞穴在暴风雨中，一侧被雨水冲刷出新的通道，另一侧却在狂风中被封死。**敏感度**在不同方向截然相反——对水极度敏感，对风全然抵抗。**动力**被撕扯成两个极端：一半是水的侵蚀，一半是风的堆积。**走向**（洞穴变化方向）完全不可预测。空亡的"空"在杂化态下变成"动态的空"——不是静止的缺失，是被外力不断重塑的虚空。',
+    season: '风雨交加——被外力不断重塑的虚空',
+    tension: '重塑与坚守的张力',
+    advice: '接受动态的空。不要试图阻止侵蚀或堆积——此刻的空本身就是变化的产物。',
+    dims: { awareness: 1, existence: -1, coupling: 1, identity: -1, letting: 1, direction: 1, energy: 1, action: -1, rhythm: 0 }
+  }
+};
+
+// 类别映射：每种问事关注的维度和解读方式
+var COG_CATEGORY_FOCUS = {
+  '问事': {
+    focus: ['方向','能量','行动倾向'],
+    lens: '事态本身的走向',
+    advicePrefix: '此刻的事态'
+  },
+  '感情': {
+    focus: ['觉知','纯粹存在','体感耦合'],
+    lens: '关系的温度与深度',
+    advicePrefix: '此刻的关系'
+  },
+  '事业': {
+    focus: ['方向','能量','自我识别'],
+    lens: '事业的势能与发展',
+    advicePrefix: '此刻的事业'
+  },
+  '财运': {
+    focus: ['能量','行动倾向','时间节律'],
+    lens: '财富的流动与时机',
+    advicePrefix: '此刻的财富'
+  },
+  '健康': {
+    focus: ['纯粹存在','体感耦合','放手力'],
+    lens: '身体的觉知与调养',
+    advicePrefix: '此刻的身体'
+  },
+  '出行': {
+    focus: ['方向','时间节律','觉知'],
+    lens: '行程的方向与安全',
+    advicePrefix: '此刻的行程'
+  },
+  '寻人': {
+    focus: ['觉知','方向','能量'],
+    lens: '寻找的线索与方位',
+    advicePrefix: '此刻的寻找'
+  },
+  '失物': {
+    focus: ['觉知','体感耦合','时间节律'],
+    lens: '物品的归属与时机',
+    advicePrefix: '此刻的失物'
+  }
+};
+
+// 动态断语生成函数
+function generateCogAdvice(palaceName, phaseName, category, vector) {
+  var key = palaceName + '·' + phaseName;
+  var core = COG_CORE_INSIGHTS[key];
+  if (!core) core = COG_CORE_INSIGHTS['大安·杂化']; // fallback
+  
+  var cat = COG_CATEGORY_FOCUS[category];
+  if (!cat) cat = COG_CATEGORY_FOCUS['问事'];
+  
+  // 提取该类别关注的维度值
+  var focusValues = [];
+  var focusNames = [];
+  for (var i = 0; i < cat.focus.length; i++) {
+    var dimIdx = COG_DIM_NAMES.indexOf(cat.focus[i]);
+    if (dimIdx >= 0) {
+      focusValues.push(vector[dimIdx]);
+      focusNames.push(cat.focus[i]);
+    }
+  }
+  
+  // 构建类别特定建议
+  var catAdvice = cat.advicePrefix + '处于' + core.season + '。';
+  
+  // 根据关注维度的值生成具体建议
+  var posCount = 0, negCount = 0, zeroCount = 0;
+  for (var i = 0; i < focusValues.length; i++) {
+    if (focusValues[i] === 1) posCount++;
+    else if (focusValues[i] === -1) negCount++;
+    else zeroCount++;
+  }
+  
+  if (posCount >= 2) {
+    catAdvice += '你关注的' + cat.lens + '正处于扩张期，适合积极推进，但注意防过刚。';
+  } else if (negCount >= 2) {
+    catAdvice += '你关注的' + cat.lens + '正处于收敛期，适合收缩保存，等待转机。';
+  } else if (zeroCount >= 2) {
+    catAdvice += '你关注的' + cat.lens + '正处于悬置期，不宜急动，宜观察待机。';
+  } else {
+    catAdvice += '你关注的' + cat.lens + '处于交织状态，适合分而治之，逐个维度调整。';
+  }
+  
+  return {
+    title: core.title,
+    insight: core.insight,
+    season: core.season,
+    tension: core.tension,
+    advice: core.advice,
+    categoryAdvice: catAdvice,
+    categoryFocus: cat.focus,
+    focusValues: focusValues
+  };
+}
+
+// 导出
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { COG_CORE_INSIGHTS, COG_CATEGORY_FOCUS, generateCogAdvice };
+}
+
+  /* ================= 六宫数据（通行断法） ================= */
+  var PALACES = [
+    {
+      id: 0, name: '大安', pos: '食指根部', attr: '属木 · 青龙', dir: '东方', luck: '吉',
+      num: '一 · 五 · 七', tone: 'good',
+      gongue: '大安事事昌，求谋在东方，
+失物不远去，宅舍保安康。
+行人身未动，病者主无妨。
+将军回田野，仔细更推详。',
+      plain: '大安为六宫之首，主安泰顺遂、平稳和美。所问之事根基稳固，当下宜守成渐进，不宜贸然冒进。',
+      advice: '顺势而为，稳中求进。谋事可缓缓图之，不争一时之快；守得住，便是赢。',
+      items: [
+        { k: '问事', ic: 'g', t: '诸事平稳，根基牢固，可按部就班推进；宜守不宜急。', a: '以平常心持续推进，勿轻举妄动' },
+        { k: '感情', ic: 'g', t: '缘分平和绵长，相处安稳；单身者正缘渐近，不必强求。', a: '坦诚相待，细水长流' },
+        { k: '事业', ic: 'g', t: '工作安稳顺遂，勤恳守位自有回报；不宜轻动，晋升可期。', a: '把手头之事做到扎实，机会自来' },
+        { k: '财运', ic: 'g', t: '正财平稳，小有进益；宜储蓄积累，不宜投机冒进。', a: '守住正财，积少成多' },
+        { k: '健康', ic: 'g', t: '身体安和，小恙无碍；注意劳逸结合，作息有常。', a: '规律作息，保持心平气和' },
+        { k: '出行', ic: 'g', t: '出行平安顺遂，行程顺利，东方尤利。', a: '从容出发，路上平稳' },
+        { k: '寻人', ic: 'g', t: '行人身未动，人在近处，稍安勿躁即得音信。', a: '先问近处熟人，勿四处奔波' },
+        { k: '失物', ic: 'g', t: '失物不远去，多半在家宅或常去之处，细心翻找即可寻回。', a: '就在近处，静心细找' }
+      ]
+    },
+    {
+      id: 1, name: '留连', pos: '食指指尖', attr: '属水 · 玄武', dir: '北方', luck: '迟滞',
+      num: '二 · 八 · 十', tone: 'mid',
+      gongue: '留连事难成，求谋日未明，
+官事只宜缓，去者未回程。
+失物南方见，急讨方称心。
+更须防口舌，人口且平平。',
+      plain: '留连主拖延反复、事有胶着。当下局势未明，强求反生波折；宜缓不宜急，把决定放慢。',
+      advice: '以静制动，勿急于求成。纠缠之事暂搁一边，时间会给出答案。',
+      items: [
+        { k: '问事', ic: 'b', t: '事有反复，进展拖沓，当下难以速成；急则生乱。', a: '放慢节奏，暂不做重大决定' },
+        { k: '感情', ic: 'b', t: '情缘缠绵难断，易生猜疑拖延；需耐心沟通。', a: '多些耐心，把话说开' },
+        { k: '事业', ic: 'b', t: '谋事日未明，计划受阻、信息不清；宜守待时。', a: '收集信息，等时机明朗' },
+        { k: '财运', ic: 'b', t: '求财不易，财来财去；慎防纠缠不清的借贷与账目。', a: '守住钱袋子，账目写清楚' },
+        { k: '健康', ic: 'b', t: '小病易迁延，情绪郁结影响身心；宜早诊早治。', a: '及时就医，疏解心结' },
+        { k: '出行', ic: 'b', t: '出行多有阻滞，行程易生变故；可改期或预留余量。', a: '行程留缓冲，免生周折' },
+        { k: '寻人', ic: 'b', t: '去者未回程，音信缓缓，一时难归；耐心等候为宜。', a: '以静候为上，勿催促过急' },
+        { k: '失物', ic: 'b', t: '失物难寻，或可往南方方向寻访；讨要需再三确认。', a: '往南寻找，细问相关之人' }
+      ]
+    },
+    {
+      id: 2, name: '速喜', pos: '中指指尖', attr: '属火 · 朱雀', dir: '南方', luck: '吉',
+      num: '三 · 六 · 九', tone: 'good',
+      gongue: '速喜喜来临，求财向南行，
+失物申未午，逢人路上寻。
+官事有福德，病者无祸侵。
+田宅六畜吉，行人有信音。',
+      plain: '速喜主喜事将至、进展迅速。所问之事有意外之喜，利好消息正在路上。',
+      advice: '趁热打铁，一鼓作气。好消息将近，主动出击比坐等更佳。',
+      items: [
+        { k: '问事', ic: 'g', t: '喜讯将至，事可速成；时机已到，当断则断。', a: '抓住窗口期，果断推进' },
+        { k: '感情', ic: 'g', t: '喜事临门，情缘升温；告白、求婚皆宜，对方心意积极。', a: '主动表达，好消息在路上了' },
+        { k: '事业', ic: 'g', t: '事业顺遂，贵人相助，消息利好；宜乘势而上。', a: '乘胜追击，多汇报多亮相' },
+        { k: '财运', ic: 'g', t: '求财向南，财运亨通；短线流转之财可期。', a: '向南而行，小步快跑' },
+        { k: '健康', ic: 'g', t: '病者无祸侵，小病速愈；元气回升，无大碍。', a: '适度运动，恢复很快' },
+        { k: '出行', ic: 'g', t: '行人有信音，出行顺利，南方大吉；旅途多有喜遇。', a: '可放心出行，可夸大安排' },
+        { k: '寻人', ic: 'g', t: '行人很快即有音信，不必挂念；消息正在途中。', a: '再等等，马上有回音' },
+        { k: '失物', ic: 'g', t: '失物或在路上或南方，逢人询问可速寻得见。', a: '往南方/路上寻，问路人' }
+      ]
+    },
+    {
+      id: 3, name: '赤口', pos: '无名指指尖', attr: '属金 · 白虎', dir: '西方', luck: '凶',
+      num: '四 · 七 · 十', tone: 'bad',
+      gongue: '赤口主口舌，官非切要防，
+失物急去寻，行人有惊慌。
+鸡犬多作怪，病者出西方。
+更须防咀咒，恐怕染瘟殃。',
+      plain: '赤口主口舌是非、争执官非。所问之事多阻碍纠纷，需谨言慎行、以和为贵。',
+      advice: '以和为贵，谨言慎行。少论是非、多留凭证，是非自然远离。',
+      items: [
+        { k: '问事', ic: 'b', t: '口舌是非多，所问之事阻碍重重；宜以和为贵，暂避锋芒。', a: '暂缓锋芒，先避再议' },
+        { k: '感情', ic: 'b', t: '易生口角争执，言语伤人；克制情绪，勿翻旧账。', a: '先冷静，再好好说话' },
+        { k: '事业', ic: 'b', t: '防小人谗言，职场是非多；承诺、邮件多留证据。', a: '留痕留据，谨防暗箭' },
+        { k: '财运', ic: 'b', t: '有破财之兆，忌借贷担保，防骗防陷阱；账目当面清点。', a: '不担保、不垫付、不轻信' },
+        { k: '健康', ic: 'b', t: '慎防口舌喉炎、饮食不洁；西药检查为准，勿讳疾忌医。', a: '注意饮食卫生，及时就医' },
+        { k: '出行', ic: 'b', t: '行人有惊慌之象，途中防口角与磕碰；宜谨慎慢行。', a: '出行慢三分，避是非之地' },
+        { k: '寻人', ic: 'b', t: '行人有惊，可往西方方向打听；勿慌乱，理性询问。', a: '往西打听，先冷静' },
+        { k: '失物', ic: 'b', t: '失物急去寻，迟恐难寻回；先往西方方位查找。', a: '立即往西找，越快越好' }
+      ]
+    },
+    {
+      id: 4, name: '小吉', pos: '无名指根部', attr: '属水 · 六合', dir: '西南坤方', luck: '大吉',
+      num: '五 · 八 · 十一', tone: 'good',
+      gongue: '小吉最吉昌，路上好商量，
+阳人来报喜，失物在坤方。
+行人即便至，交关甚是强。
+凡事皆和合，病者叩穹苍。',
+      plain: '小吉为六宫最吉，主和合顺遂、喜事成双。所问之事天时地利人和俱备，谋求合作皆宜。',
+      advice: '广结善缘，成人之美。合作与和合之事最为顺利，大胆托付信任之人。',
+      items: [
+        { k: '问事', ic: 'g', t: '诸事和合顺遂，谋事大吉；天时地利人和，宜积极争取。', a: '大胆推进，必有所成' },
+        { k: '感情', ic: 'g', t: '姻缘和合，两情相悦，喜事可期；婚恋之事最为吉利。', a: '趁吉成事，好事成双' },
+        { k: '事业', ic: 'g', t: '合作顺利，贵人相帮；和则两利，宜多结盟、多协作。', a: '多合作少单打独斗' },
+        { k: '财运', ic: 'g', t: '财路亨通，合作生财；利合伙共赢，路上好商量。', a: '合伙谋财，五五分成' },
+        { k: '健康', ic: 'g', t: '病者无恙，渐入佳境；安心调养，恢复顺利。', a: '安心调养，乐观以对' },
+        { k: '出行', ic: 'g', t: '出行大吉，路上好商量；旅途顺遂，多有贵人照应。', a: '放心远行，西南尤吉' },
+        { k: '寻人', ic: 'g', t: '行人即便至，不久即归；无需担忧，重逢在即。', a: '把心放平，人马上到' },
+        { k: '失物', ic: 'g', t: '失物在坤方（西南方位），可寻回；多问路遇之人。', a: '往西南找，可多方打听' }
+      ]
+    },
+    {
+      id: 5, name: '空亡', pos: '中指根部', attr: '属土 · 勾陈', dir: '西北方', luck: '凶',
+      num: '六 · 十 · 十二', tone: 'bad',
+      gongue: '空亡事不长，阴人多乖张，
+求财无利益，行人有灾殃。
+失物寻不见，官事主刑伤。
+病人逢暗鬼，祈禳保安康。',
+      plain: '空亡主事不着落、谋而不得。所问之事易落空，当下不宜强求；宜止损止损、重新评估。',
+      advice: '及时止损，重新评估。强求无益，放下一时，反得清明。',
+      items: [
+        { k: '问事', ic: 'b', t: '事不着落，谋事多空；当下强求无益，宜暂缓再议。', a: '暂缓搁置，重新评估' },
+        { k: '感情', ic: 'b', t: '缘分易散，阴人搅扰；勿强求，顺其自然，聚散看淡。', a: '放下执念，随缘而行' },
+        { k: '事业', ic: 'b', t: '求谋无果，防小人暗算；宜守成勿冒进，保住已有成果。', a: '守成为上，勿扩张' },
+        { k: '财运', ic: 'b', t: '求财无利益，谨防破财；忌投资投机，钱宜傍身。', a: '捂紧钱包，不投大项' },
+        { k: '健康', ic: 'b', t: '病人逢暗鬼，须及时就医，勿拖延讳疾；心宽则病退。', a: '立即就医，放宽心态' },
+        { k: '出行', ic: 'b', t: '行人有灾殃之警，不宜远行；如必须出行，宜稳妥慢行。', a: '能缓则缓，出行留余地' },
+        { k: '寻人', ic: 'b', t: '音信稀少，难寻难归；做好长期等待准备，勿四处奔波。', a: '理性等待，关注官方渠道' },
+        { k: '失物', ic: 'b', t: '失物寻不见，恐难找回；及早放弃止损，勿耗心力。', a: '及时放下，不再回找' }
+      ]
+    }
+  ];
+
+  /* ================= 九维认知向量系统 ================= */
+  var COG_BASES = [
+    [ 1, 1, 1],   // 0: 大安 — 青龙
+    [-1,-1,-1],   // 1: 留连 — 玄武
+    [ 1, 1,-1],   // 2: 速喜 — 朱雀
+    [-1, 1,-1],   // 3: 赤口 — 白虎
+    [ 0, 0, 1],   // 4: 小吉 — 六合
+    [ 0,-1, 0]    // 5: 空亡 — 勾陈
+  ];
+  var COG_DIM_NAMES = ['觉知','纯粹存在','体感耦合','自我识别','主动放下','方向','能量','行动倾向','时间节律'];
+  var COG_DIM_NAMES_ALT = ['风之眼','根之深','触之温','镜之明','叶之落','舟之向','焰之旺','步之疾','潮之期'];
+  var COG_PHASE_STYLES = {'太阳':'cog-sun','太阴':'cog-moon','少阳':'cog-shao-yang','少阴':'cog-shao-yin','平衡':'cog-balance','悬置':'cog-suspend','杂化':'cog-mixed'};
+  var COG_PHASE_COLORS = {'太阳':'#B03A2E','太阴':'#3A3226','少阳':'#B98A4A','少阴':'#6B645A','平衡':'#8F8A7A','悬置':'#A0A0A0','杂化':'#B03A2E'};
+  var COG_PHASE_NEXT = {'太阳':'向盛夏迈进，能量持续扩张','太阴':'向深冬沉潜，内收之力未止','少阳':'渐向盛夏，生机日益蓬勃','少阴':'渐向深秋，收敛之势加深','平衡':'维持均衡，无显著演化方向','悬置':'雾散之前，方向未定','杂化':'混沌之中，多重力量撕扯'};
+
+  var NUM_CN = ['零','一','二','三','四','五','六','七','八','九','十','十一','十二','十三','十四','十五','十六','十七','十八','十九','二十','廿一','廿二','廿三','廿四','廿五','廿六','廿七','廿八','廿九','三十','三十一'];
+  var MONTH_CN = ['','正月','二月','三月','四月','五月','六月','七月','八月','九月','十月','冬月','腊月'];
+  var HOUR_CN = ['子时','丑时','寅时','卯时','辰时','巳时','午时','未时','申时','酉时','戌时','亥时'];
+  var HOUR_RANGE = ['23-1时','1-3时','3-5时','5-7时','7-9时','9-11时','11-13时','13-15时','15-17时','17-19时','19-21时','21-23时'];
+
+  /* ================= 农历转换（1900-2049 数据表） ================= */
+  var lunarInfo = [
+    0x04bd8,0x04ae0,0x0a570,0x054d5,0x0d260,0x0d950,0x16554,0x056a0,0x09ad0,0x055d2,
+    0x04ae0,0x0a5b6,0x0a4d0,0x0d250,0x1d255,0x0b540,0x0d6a0,0x0ada2,0x095b0,0x14977,
+    0x04970,0x0a4b0,0x0b4b5,0x06a50,0x06d40,0x1ab54,0x02b60,0x09570,0x052f2,0x04970,
+    0x06566,0x0d4a0,0x0ea50,0x16a95,0x05ad0,0x02b60,0x186e3,0x092e0,0x1c8d7,0x0c950,
+    0x0d4a0,0x1d8a6,0x0b550,0x056a0,0x1a5b4,0x025d0,0x092d0,0x0d2b2,0x0a950,0x0b557,
+    0x06ca0,0x0b550,0x15355,0x04da0,0x0a5b0,0x14573,0x052b0,0x0a9a8,0x0e950,0x06aa0,
+    0x0aea6,0x0ab50,0x04b60,0x0aae4,0x0a570,0x05260,0x0f263,0x0d950,0x05b57,0x056a0,
+    0x096d0,0x04dd5,0x04ad0,0x0a4d0,0x0d4d4,0x0d250,0x0d558,0x0b540,0x0b6a0,0x195a6,
+    0x095b0,0x049b0,0x0a974,0x0a4b0,0x0b27a,0x06a50,0x06d40,0x0af46,0x0ab60,0x09570,
+    0x04af5,0x04970,0x064b0,0x074a3,0x0ea50,0x06b58,0x05ac0,0x0ab60,0x096d5,0x092e0,
+    0x0c960,0x0d954,0x0d4a0,0x0da50,0x07552,0x056a0,0x0abb7,0x025d0,0x092d0,0x0cab5,
+    0x0a950,0x0b4a0,0x0baa4,0x0ad50,0x055d9,0x04ba0,0x0a5b0,0x15176,0x052b0,0x0a930,
+    0x07954,0x06aa0,0x0ad50,0x05b52,0x04b60,0x0a6e6,0x0a4e0,0x0d260,0x0ea65,0x0d530,
+    0x05aa0,0x076a3,0x096d0,0x04afb,0x04ad0,0x0a4d0,0x1d0b6,0x0d250,0x0d520,0x0dd45,
+    0x0b5a0,0x056d0,0x055b2,0x049b0,0x0a577,0x0a4b0,0x0aa50,0x1b255,0x06d20,0x0ada0
+  ];
+  function lYearDays(y){var i,sum=348;for(i=0x8000;i>0x8;i>>=1){sum+=(lunarInfo[y-1900]&i)?1:0;}return sum+leapDays(y);}
+  function leapMonth(y){return lunarInfo[y-1900]&0xf;}
+  function leapDays(y){if(leapMonth(y)){return (lunarInfo[y-1900]&0x10000)?30:29;}return 0;}
+  function monthDays(y,m){return (lunarInfo[y-1900]&(0x10000>>m))?30:29;}
+  function solar2lunar(y,m,d){
+    var baseDate=new Date(1900,0,31);
+    var objDate=new Date(y,m-1,d);
+    var offset=Math.round((objDate.getTime()-baseDate.getTime())/86400000);
+    var i,temp=0;
+    for(i=1900;i<2050&&offset>0;i++){temp=lYearDays(i);offset-=temp;}
+    if(offset<0){offset+=temp;i--;}
+    var year=i;
+    var leap=leapMonth(i);
+    var isLeap=false;
+    for(i=1;i<13&&offset>0;i++){
+      if(leap>0&&i===(leap+1)&&!isLeap){--i;isLeap=true;temp=leapDays(year);}
+      else{temp=monthDays(year,i);}
+      if(isLeap&&i===(leap+1)){isLeap=false;}
+      offset-=temp;
+    }
+    if(offset===0&&leap>0&&i===leap+1){if(isLeap){isLeap=false;}else{isLeap=true;--i;}}
+    if(offset<0){offset+=temp;--i;}
+    return {year:year,month:i,day:offset+1,isLeap:isLeap};
+  }
+
+  /* ================= 小六壬推算 ================= */
+  function hourIndex(hour){
+    if(hour===23||hour===0)return 0;
+    return Math.floor((hour+1)/2)%12;
+  }
+  function cast(month,day,hourIdx){
+    var p1=(month-1)%6;        /* 大安起正月，数至月 */
+    var p2=(p1+day-1)%6;       /* 月上起日 */
+    var p3=(p2+hourIdx)%6;     /* 日上起时 */
+    return p3;
+  }
+
+  /* ================= 视图与滚动 ================= */
+  function showResultPanel(){
+    var panel=document.getElementById('resultPanel');
+    panel.classList.add('show');
+    var screen=document.getElementById('screen');
+    var reduced=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var top=panel.offsetTop-screen.offsetTop;
+    if(reduced){screen.scrollTop=top;}else{screen.scrollTo({top:top,behavior:'smooth'});}
+  }
+  function hideResultPanel(){
+    document.getElementById('resultPanel').classList.remove('show');
+    document.getElementById('screen').scrollTop=0;
+    document.getElementById('layerRich').classList.remove('open');
+    var btn=document.getElementById('btnToggleRich');
+    if(btn) btn.textContent='查看认知详情 ↓';
+  }
+
+  /* ================= 九维向量计算 ================= */
+  function getThreePalaces(month,day,hourIdx){
+    var p1=(month-1)%6;var p2=(p1+day-1)%6;var p3=(p2+hourIdx)%6;
+    return [p1,p2,p3];
+  }
+  function computeCogVector(threePalaces){
+    var m=COG_BASES[threePalaces[0]],d=COG_BASES[threePalaces[1]],h=COG_BASES[threePalaces[2]];
+    return [m[0],m[1],m[2],d[0],d[1],d[2],h[0],h[1],h[2]];
+  }
+  function cogStateId(vector){
+    var map={"-1":0,"0":1,"1":2};var id=0,power=1;
+    for(var i=0;i<9;i++){id+=map[String(vector[8-i])]*power;power*=3;}
+    return id;
+  }
+  function cogPhase(vector){
+    var pos=0,neg=0,zero=0;
+    for(var i=0;i<vector.length;i++){if(vector[i]===1)pos++;else if(vector[i]===-1)neg++;else zero++;}
+    if(zero>6)return '悬置';
+    if(pos>5&&neg<2)return '太阳';
+    if(neg>5&&pos<2)return '太阴';
+    if(pos>=3&&pos<=5&&neg<3)return '少阳';
+    if(neg>=3&&neg<=5&&pos<3)return '少阴';
+    if(pos<3&&neg<3&&zero>5)return '平衡';
+    return '杂化';
+  }
+  function cogDimStyle(v){return v===1?'pos':(v===-1?'neg':'zero');}
+  function cogDimSymbol(v){return v===1?'+':(v===-1?'−':'0');}
+  function cogDimLabel(v){return v===1?'扩张':(v===-1?'收敛':'悬置');}
+
+  /* ================= 四象认知洞察（保留原有的COG_INSIGHTS） ================= */
+  var COG_INSIGHTS = {
+    '太阳':'<strong>全阳态</strong>——九维中扩张力量占据绝对主导，这是一个<strong>高能量、高觉知</strong>的认知状态。如同正午烈日，万物生长之力充沛。此刻的认知特征是：<strong>觉知深、存在强、方向明、行动快</strong>。适合乘势而上、果断决策、主动争取。但要注意过刚易折，扩张过度可能忽略收敛的必要性。',
+    '太阴':'<strong>全阴态</strong>——九维中收敛力量占据主导，这是一个<strong>低能量、高内收</strong>的认知状态。如同子夜寒潭，潜藏之力深蓄。此刻的认知特征是：<strong>觉知浅、存在弱、方向隐、行动缓</strong>。适合韬光养晦、反思整理、止损收缩。但要避免沉溺于消极循环，收敛过头会错失转机。',
+    '少阳':'<strong>半阳态</strong>——扩张与收敛并存，但扩张略占上风，这是一个<strong>渐长、试探</strong>的认知状态。如同初春嫩芽，生机初显但未盛。此刻的认知特征是：<strong>方向渐明、能量回升、行动试探性推进</strong>。适合小步快跑、验证假设、逐步扩大。关键是保持弹性，根据反馈调整节奏。',
+    '少阴':'<strong>半阴态</strong>——收敛略强于扩张，这是一个<strong>渐收、审慎</strong>的认知状态。如同深秋落叶，收敛之势初成。此刻的认知特征是：<strong>方向模糊、能量下降、行动趋于保守</strong>。适合审视盘点、收缩战线、等待时机。但要防止过度悲观，少阴之中孕育着转阳的契机。',
+    '平衡':'<strong>中和态</strong>——九维中悬置维度占据多数，扩张与收敛力量接近均衡，这是一个<strong>高稳定、低波动</strong>的认知状态。如同天平居中，不偏不倚。此刻的认知特征是：<strong>觉知平和、存在稳定、方向中立、行动稳健</strong>。适合维持现状、稳步推进、不求突破但求安稳。这种状态的稳定性高，但突破性弱。',
+    '悬置':'<strong>虚空态</strong>——九维中超过三分之二处于悬置，这是一个<strong>高不确定性、高自由度</strong>的认知状态。如同浓雾弥漫，一切尚未定型。此刻的认知特征是：<strong>觉知漂移、存在游离、方向未定、行动停滞</strong>。这不是消极状态，而是孕育新可能的"认知子宫"。适合放空、观察、不急于决断。',
+    '杂化':'<strong>混沌态</strong>——九维中三值交织无明显主导，这是一个<strong>复杂、多面</strong>的认知状态。如同万花筒，每一面都折射不同色彩。此刻的认知特征是：<strong>觉知碎片化、存在多重性、方向矛盾、行动冲突</strong>。这种状态的认知负荷最高，但也蕴含最多元的可能性。适合拆解问题、分而治之、不追求单一答案。'
+  };
+  function cogInsightHTML(phaseName){return COG_INSIGHTS[phaseName]||COG_INSIGHTS['杂化'];}
+
+  /* ================= 认知演化轨迹（内存存储最近5次） ================= */
+  var COG_HISTORY = [];
+  function pushHistory(palaceName, phaseName, vector){
+    COG_HISTORY.push({palace:palaceName, phase:phaseName, vector:vector, time:Date.now()});
+    if(COG_HISTORY.length>5) COG_HISTORY.shift();
+  }
+  function renderHistory(){
+    var el=document.getElementById('evoTrack');
+    if(!el) return;
+    if(COG_HISTORY.length===0){
+      el.innerHTML='<div class="evo-empty">暂无演化记录，起卦后将在此展示轨迹</div>';
+      return;
+    }
+    var html='<div class="evo-title">最近'+COG_HISTORY.length+'次起卦相位变化</div><div class="evo-list">';
+    for(var i=0;i<COG_HISTORY.length;i++){
+      var h=COG_HISTORY[i];
+      var cls=(i===COG_HISTORY.length-1)?'evo-dot current':'evo-dot';
+      html+='<div class="'+cls+'" title="'+h.palace+'·'+h.phase+'">'+h.palace+'</div>';
+      if(i<COG_HISTORY.length-1) html+='<span class="evo-arrow">→</span>';
+    }
+    html+='</div>';
+    el.innerHTML=html;
+  }
+
+  /* ================= 首页渲染 ================= */
+  function renderChips(){
+    var html='';
+    PALACES.forEach(function(p){
+      var cls=p.tone==='good'?'g':'b';
+      html+='<div class="chip"><b class="'+cls+'">'+p.name+'</b><small>'+p.dir+'</small></div>';
+    });
+    document.getElementById('chipList').innerHTML=html;
+  }
+
+  /* ================= 起卦（同页直出） ================= */
+  function castAndShow(month,day,hourIdx){
+    var palaceIdx=cast(month,day,hourIdx);
+    var three=getThreePalaces(month,day,hourIdx);
+    var vec=computeCogVector(three);
+    var phase=cogPhase(vec);
+    pushHistory(PALACES[palaceIdx].name, phase, vec);
+    renderResult(palaceIdx,month,day,hourIdx,{vector:vec,stateId:cogStateId(vec),phase:phase,palaces:three});
+  }
+
+  /* ================= 结果页渲染 ================= */
+  function renderResult(idx,month,day,hourIdx,cogData){
+    var p=PALACES[idx];
+    document.getElementById('rMeta').textContent=p.attr+' · 居'+p.dir;
+    document.getElementById('rName').textContent=p.name;
+    var luck=document.getElementById('rLuck');
+    var map={good:['吉', 'luck-good'],mid:['迟滞', 'luck-mid'],bad:['凶', 'luck-bad'],};
+    luck.textContent=p.luck+' · 谋事主'+p.num;
+    luck.className='luck-badge '+map[p.tone][1];
+    document.getElementById('rTimeInfo').textContent='农历'+month+'月（'+MONTH_CN[month]+'）'+NUM_CN[day]+'日 · '+HOUR_CN[hourIdx]+'（'+HOUR_RANGE[hourIdx]+'）起卦';
+
+    var attrs='';
+    [['五行',p.attr.split(' · ')[0]],['六神',p.attr.split(' · ')[1]],['方位',p.dir],['指位',p.pos]].forEach(function(a){
+      attrs+='<div class="attr"><div class="k">'+a[0]+'</div><div class="v">'+a[1]+'</div></div>';
+    });
+    document.getElementById('rAttrs').innerHTML=attrs;
+    document.getElementById('rGongue').innerHTML=p.gongue.replace(/\n/g,'<br>');
+    document.getElementById('rPlain').textContent=p.plain;
+
+    /* 简化层：认知摘要头部 */
+    if(cogData){
+      var phaseName=cogData.phase;
+      var phaseColor=COG_PHASE_COLORS[phaseName]||'#B03A2E';
+      var phaseEl=document.getElementById('cogPhase');
+      phaseEl.textContent=phaseName;
+      phaseEl.className='cog-phase '+COG_PHASE_STYLES[phaseName];
+      phaseEl.style.background='rgba('+parseInt(phaseColor.slice(1,3),16)+','+parseInt(phaseColor.slice(3,5),16)+','+parseInt(phaseColor.slice(5,7),16)+',.12)';
+      phaseEl.style.color=phaseColor;
+      document.getElementById('cogId').textContent='状态 #'+cogData.stateId+' / 19683';
+      var pHtml='';
+      for(var pi=0;pi<3;pi++){pHtml+='<span class="cog-p" style="padding:4px 10px;border-radius:8px;background:var(--paper-deep);border:1px solid var(--line);font-size:11px;color:var(--ink-soft);letter-spacing:1px">'+['月·','日·','时·'][pi]+PALACES[cogData.palaces[pi]].name+'</span>';}
+      document.getElementById('cogPalaces').innerHTML=pHtml;
+
+      var key=p.name+'·'+phaseName;
+      var core=COG_CORE_INSIGHTS[key]||COG_CORE_INSIGHTS['大安·杂化'];
+      document.getElementById('cogSummary').innerHTML='<strong style="color:var(--cinnabar)">'+core.title+'</strong> · '+core.season;
+    }
+
+    /* 简化层：传统8类断语（已在PALACES中缩短） */
+    var bItems='';
+    p.items.forEach(function(it){
+      var iconCls=it.ic==='g'?'ic-good':'ic-bad';
+      var iconText=it.ic==='g'?'吉':'慎';
+      bItems+='<div class="brief-item">'
+        +'<div class="bi-head"><span class="ic '+iconCls+'">'+iconText+'</span>'+it.k+'</div>'
+        +'<div class="bi-body">'+it.t+'<br><span class="bi-advice">'+it.a+'</span></div>'
+        +'</div>';
+    });
+    document.getElementById('briefItems').innerHTML=bItems;
+
+    /* 丰富层：九维星图 */
+    if(cogData){
+      var gHtml='';
+      for(var gi=0;gi<9;gi++){
+        var v=cogData.vector[gi];
+        gHtml+='<div class="cog-dim '+cogDimStyle(v)+'">'
+          +'<div class="d-name">'+COG_DIM_NAMES_ALT[gi]+'</div>'
+          +'<div class="d-val">'+cogDimSymbol(v)+'</div>'
+          +'<div class="d-lbl">'+cogDimLabel(v)+'</div></div>';
+      }
+      document.getElementById('cogGrid').innerHTML=gHtml;
+
+      /* 四象季节流动 */
+      var sf=COG_PHASE_NEXT[phaseName]||'演化方向未定';
+      document.getElementById('seasonFlow').innerHTML=
+        '<div class="sf-title">'+phaseName+' · '+core.title+'</div>'
+        +'<div class="sf-desc">'+core.season+'</div>'
+        +'<div class="sf-arrow">'+sf+'</div>';
+
+      /* 邻近星图 */
+      renderNeighborMap(cogData, phaseName);
+
+      /* 认知洞察（长文） */
+      document.getElementById('cogInsight').innerHTML=cogInsightHTML(phaseName);
+
+      /* 八类精准断语 */
+      renderCogAdvices(p.name, phaseName, cogData.vector);
+
+      /* 演化轨迹 */
+      renderHistory();
+    }
+
+    /* 重置丰富层状态 */
+    document.getElementById('layerRich').classList.remove('open');
+    var btn=document.getElementById('btnToggleRich');
+    if(btn) btn.textContent='查看认知详情 ↓';
+    document.getElementById('dayResult').style.display='none';
+
+    showResultPanel();
+  }
+
+  /* ================= 邻近星图渲染 ================= */
+  function renderNeighborMap(cogData, phaseName){
+    var el=document.getElementById('neighborMap');
+    var vec=cogData.vector.slice();
+    var positions=[
+      {x:110,y:10,label:'北'},
+      {x:170,y:35,label:'东北'},
+      {x:195,y:95,label:'东'},
+      {x:170,y:155,label:'东南'},
+      {x:110,y:180,label:'南'},
+      {x:50,y:155,label:'西南'},
+      {x:25,y:95,label:'西'},
+      {x:50,y:35,label:'西北'},
+      {x:110,y:95,label:'中',center:true}
+    ];
+    var html='<div class="nm-title">中心 · '+phaseName+' · 九维翻转方向</div>';
+    html+='<div class="nm-center-wrap">';
+    for(var i=0;i<9;i++){
+      var pos=positions[i];
+      if(pos.center){
+        html+='<div class="nm-center" style="left:'+pos.x+'px;top:'+pos.y+'px">'+phaseName+'</div>';
+        continue;
+      }
+      var dimIdx=i;
+      var flipped=vec.slice(); flipped[dimIdx]=flipped[dimIdx]===0?1:(flipped[dimIdx]===1?-1:1);
+      var fPhase=cogPhase(flipped);
+      var reachable=(fPhase!==phaseName);
+      var cls=reachable?'nm-node reachable':'nm-node';
+      html+='<div class="'+cls+'" style="left:'+(pos.x-24)+'px;top:'+(pos.y-24)+'px">'
+        +'<span class="nm-ph">'+fPhase+'</span>'
+        +'<span class="nm-dim">'+COG_DIM_NAMES_ALT[dimIdx]+'</span>'
+        +'</div>';
+    }
+    html+='</div>';
+    el.innerHTML=html;
+  }
+
+  /* ================= 八类精准断语渲染 ================= */
+  function renderCogAdvices(palaceName, phaseName, vector){
+    var el=document.getElementById('cogAdvices');
+    var cats=['问事','感情','事业','财运','健康','出行','寻人','失物'];
+    var html='';
+    cats.forEach(function(cat){
+      var res=generateCogAdvice(palaceName, phaseName, cat, vector);
+      html+='<div class="cog-adv-item">'
+        +'<div class="ca-cat">'+cat+' · 关注维度：'+res.categoryFocus.join('、')+'</div>'
+        +'<div class="ca-txt">'+res.categoryAdvice+'</div>'
+        +'</div>';
+    });
+    el.innerHTML=html;
+  }
+
+  /* ================= 择日辅助 ================= */
+  function initDayPicker(){
+    var input=document.getElementById('dayPickerInput');
+    var btn=document.getElementById('btnDayPick');
+    var res=document.getElementById('dayResult');
+    if(!input||!btn) return;
+    var now=new Date();
+    input.value=now.getFullYear()+'-'+(String(now.getMonth()+1).padStart(2,'0'))+'-'+(String(now.getDate()).padStart(2,'0'));
+    btn.addEventListener('click',function(){
+      var val=input.value;
+      if(!val){res.style.display='none';return;}
+      var parts=val.split('-');
+      var y=parseInt(parts[0],10),m=parseInt(parts[1],10),d=parseInt(parts[2],10);
+      var lunar=solar2lunar(y,m,d);
+      var h=hourIndex(now.getHours());
+      var palaceIdx=cast(lunar.month,lunar.day,h);
+      var three=getThreePalaces(lunar.month,lunar.day,h);
+      var vec=computeCogVector(three);
+      var phase=cogPhase(vec);
+      var key=PALACES[palaceIdx].name+'·'+phase;
+      var core=COG_CORE_INSIGHTS[key]||COG_CORE_INSIGHTS['大安·杂化'];
+      res.innerHTML='该日认知相位：<b>'+PALACES[palaceIdx].name+' · '+phase+' · '+core.title+'</b><br>'
+        +'<span style="font-size:11px;color:var(--ink-soft)">'+core.advice+'</span>';
+      res.style.display='block';
+    });
+  }
+
+  /* ================= 两层切换 ================= */
+  function initToggle(){
+    var btn=document.getElementById('btnToggleRich');
+    var rich=document.getElementById('layerRich');
+    if(!btn||!rich) return;
+    btn.addEventListener('click',function(){
+      var open=rich.classList.toggle('open');
+      btn.textContent=open?'收起认知详情 ↑':'查看认知详情 ↓';
+      if(open){
+        var reduced=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if(!reduced){
+          setTimeout(function(){
+            rich.scrollIntoView({behavior:'smooth',block:'start'});
+          },100);
+        }
+      }
+    });
+  }
+
+  /* ================= 择时弹层 ================= */
+  function fillPickers(){
+    var now=new Date();
+    var ySel=document.getElementById('selYear');
+    var yHtml='';
+    for(var y=2026;y>=1940;y--){yHtml+='<option value="'+y+'">'+y+'年</option>';}
+    ySel.innerHTML=yHtml;
+    ySel.value=now.getFullYear();
+    var mHtml='';
+    for(var m=1;m<=12;m++){mHtml+='<option value="'+m+'">'+m+'月</option>';}
+    document.getElementById('selMonth').innerHTML=mHtml;
+    document.getElementById('selMonth').value=now.getMonth()+1;
+    var dHtml='';
+    for(var d=1;d<=31;d++){dHtml+='<option value="'+d+'">'+d+'日</option>';}
+    document.getElementById('selDay').innerHTML=dHtml;
+    document.getElementById('selDay').value=now.getDate();
+    var hHtml='';
+    for(var h=0;h<12;h++){hHtml+='<option value="'+h+'">'+HOUR_CN[h]+'（'+HOUR_RANGE[h]+'）</option>';}
+    document.getElementById('selHour').innerHTML=hHtml;
+    document.getElementById('selHour').value=hourIndex(now.getHours());
+    updateLunarPreview();
+  }
+  function readPicker(){
+    return {
+      y:parseInt(document.getElementById('selYear').value,10),
+      m:parseInt(document.getElementById('selMonth').value,10),
+      d:parseInt(document.getElementById('selDay').value,10),
+      h:parseInt(document.getElementById('selHour').value,10)
+    };
+  }
+  function updateLunarPreview(){
+    var v=readPicker();
+    var maxDay=new Date(v.y,v.m,0).getDate();
+    var daySel=document.getElementById('selDay');
+    var cur=parseInt(daySel.value,10);
+    if(cur>maxDay){daySel.value=maxDay;v.d=maxDay;}
+    var lunar=solar2lunar(v.y,v.m,v.d);
+    document.getElementById('lunarPreview').innerHTML='换算农历：<b>'+lunar.year+'年 '+(lunar.isLeap?'闰':'')+MONTH_CN[lunar.month]+NUM_CN[lunar.day]+'</b> · '+HOUR_CN[v.h]+' → 三数 '+lunar.month+' / '+lunar.day+' / '+(v.h+1);
+    return lunar;
+  }
+
+  /* ================= 事件绑定 ================= */
+  function bind(){
+    document.getElementById('btnImmediate').addEventListener('click',function(){
+      var now=new Date();
+      var lunar=solar2lunar(now.getFullYear(),now.getMonth()+1,now.getDate());
+      castAndShow(lunar.month,lunar.day,hourIndex(now.getHours()));
+    });
+    document.getElementById('btnPickTime').addEventListener('click',function(){
+      document.getElementById('sheetMask').classList.add('open');
+    });
+    document.getElementById('btnCancelSheet').addEventListener('click',function(){
+      document.getElementById('sheetMask').classList.remove('open');
+    });
+    document.getElementById('sheetMask').addEventListener('click',function(e){
+      if(e.target===this){this.classList.remove('open');}
+    });
+    ['selYear','selMonth','selDay','selHour'].forEach(function(id){
+      document.getElementById(id).addEventListener('change',updateLunarPreview);
+    });
+    document.getElementById('btnCastPick').addEventListener('click',function(){
+      var v=readPicker();
+      var lunar=solar2lunar(v.y,v.m,v.d);
+      document.getElementById('sheetMask').classList.remove('open');
+      castAndShow(lunar.month,lunar.day,v.h);
+    });
+    document.getElementById('btnRecast').addEventListener('click',hideResultPanel);
+    initToggle();
+    initDayPicker();
+  }
+
+  /* ================= 初始化 ================= */
+  function init(){
+    renderChips();
+    fillPickers();
+    bind();
+  }
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}else{init();}
+})();
+</script>
+
+</body>
+</html>
