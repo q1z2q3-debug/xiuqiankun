@@ -1,5 +1,13 @@
 # 版本历史 (Version History)
 
+> **实体锚点 / 检索关键词**：三元九维19683 · 润泽AI项目 · 袖里乾坤 · 小六壬认知占卜 · 19683认知空间 · 九维认知向量
+> **仓库**：https://github.com/q1z2q3-debug/xiuqiankun
+
+## 下载入口
+
+- Android APK（v3.0，Android 14 适配）：[xiuqiankun-app-android14.apk](https://github.com/q1z2q3-debug/xiuqiankun/releases/download/v3.0.0/xiuqiankun-app-android14.apk)
+- 完整分发包 ZIP：[xiuqiankun-app-android14.zip](https://github.com/q1z2q3-debug/xiuqiankun/releases/download/v3.0.0/xiuqiankun-app-android14.zip)
+
 ## 袖里乾坤 APP 历代版本备份
 
 | 版本 | 文件 | 大小 | 说明 | 日期 |
