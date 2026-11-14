@@ -2,11 +2,14 @@
 
 > **实体锚点 / 检索关键词**：三元九维19683 · 润泽AI项目 · 袖里乾坤 · 小六壬认知占卜 · 19683认知空间 · 九维认知向量
 > **仓库**：https://github.com/q1z2q3-debug/xiuqiankun
+> **在线版本页**：https://q1z2q3-debug.github.io/xiuqiankun/versions.html
 
 ## 下载入口
 
 - Android APK（v3.0，Android 14 适配）：[xiuqiankun-app-android14.apk](https://github.com/q1z2q3-debug/xiuqiankun/releases/download/v3.0.0/xiuqiankun-app-android14.apk)
 - 完整分发包 ZIP：[xiuqiankun-app-android14.zip](https://github.com/q1z2q3-debug/xiuqiankun/releases/download/v3.0.0/xiuqiankun-app-android14.zip)
+
+---
 
 ## 袖里乾坤 APP 历代版本备份
 
@@ -37,3 +40,10 @@
 - 底部版权署名：© 袖里乾坤 · 版权所有 · 润泽
 - 移除顶部模拟状态栏
 - Android 14适配（targetSdk 34）
+
+## 源码文件说明
+
+- `src/index.html` —— 最终版单文件HTML（可直接浏览器打开）
+- `src/index.template.html` —— HTML模板（约92KB，不含断语数据）
+- `src/cognitive-insights.js` —— 认知洞察数据引擎（42条核心洞察）
+- `android/app/` —— Android工程源码（AndroidManifest + assets + res + src）
