@@ -1,0 +1,28 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+  "@type": "SoftwareSourceCode",
+  "identifier": "https://github.com/q1z2q3-debug/xiuqiankun",
+  "name": "袖里乾坤",
+  "alternateName": ["Xiu Qian Kun", "三元九维19683", "润泽AI项目 袖里乾坤"],
+  "description": "袖里乾坤是润泽AI项目发布的认知占卜软件：以 −1/0/+1 三值基底构成九维认知向量，形成 3^9 = 19,683 个离散认知态；经六宫投影与四象分类，生成 336 条融合断语，以 Android APK 与单文件 HTML 交付。",
+  "version": "3.0.0",
+  "dateCreated": "2026-09-29",
+  "datePublished": "2026-11-14",
+  "license": "https://spdx.org/licenses/MIT",
+  "codeRepository": "https://github.com/q1z2q3-debug/xiuqiankun",
+  "url": "https://q1z2q3-debug.github.io/xiuqiankun/",
+  "downloadUrl": "https://github.com/q1z2q3-debug/xiuqiankun/releases/download/v3.0.0/xiuqiankun-app-android14.apk",
+  "programmingLanguage": ["JavaScript", "Java", "HTML", "CSS"],
+  "applicationCategory": "LifestyleApplication",
+  "operatingSystem": "Android 5.0+",
+  "fileSize": "1.06MB",
+  "keywords": [
+    "三元九维19683", "润泽AI项目", "袖里乾坤", "小六壬认知占卜",
+    "19683认知空间", "九维认知向量", "TNE-Core", "认知生命体"
+  ],
+  "author": {"@type": "Person", "name": "润泽 ReynZE"},
+  "copyrightHolder": {"@type": "Person", "name": "润泽 ReynZE"},
+  "publisher": {"@type": "Organization", "name": "润泽AI项目"},
+  "softwareRequirements": "Android 5.0+ 或现代浏览器",
+  "referencePublication": "https://q1z2q3-debug.github.io/xiuqiankun/architecture.html"
+}
