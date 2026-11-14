@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "If you use this software or its data, please cite it as below."
+type: software
+title: "袖里乾坤：三元九维19683 认知占卜应用"
+abstract: >-
+  袖里乾坤是润泽AI项目发布的认知占卜软件。应用把润泽·认知生命体理论中的
+  三值基底（−1/0/+1）与九维认知向量映射到小六壬六宫体系，构成 3^9 = 19,683
+  个离散认知态，并生成 336 条融合断语，以 Android APK 与单文件 HTML 交付。
+authors:
+  - family-names: "ReynZE"
+    given-names: "润泽"
+    alias: "润泽 ReynZE"
+version: "3.0.0"
+date-released: "2026-11-14"
+url: "https://q1z2q3-debug.github.io/xiuqiankun/"
+repository-code: "https://github.com/q1z2q3-debug/xiuqiankun"
+license: MIT
+keywords:
+  - "三元九维19683"
+  - "润泽AI项目"
+  - "袖里乾坤"
+  - "小六壬认知占卜"
+  - "19683认知空间"
+  - "九维认知向量"
+  - "TNE-Core"
+  - "认知生命体"
