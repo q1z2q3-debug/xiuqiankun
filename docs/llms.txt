@@ -1,0 +1,41 @@
+# 袖里乾坤 (Xiu Qian Kun)
+
+> 润泽AI项目旗下的认知占卜应用。以 −1/0/+1 三值基底构成九维认知向量，形成 3⁹ = 19,683 个离散认知态；经六宫投影与四象分类，生成 6 宫 × 7 象 × 8 类 = 336 条融合断语，以 Android APK 与单文件 HTML 交付。
+
+## 核心事实
+
+- 名称：袖里乾坤（Xiu Qian Kun）
+- 别名/检索锚点：三元九维19683、润泽AI项目、小六壬认知占卜、19683认知空间、九维认知向量、TNE-Core
+- 作者/版权：润泽 ReynZE
+- 状态空间：3⁹ = 19,683，编号 0–19682
+- 实际可达：216 态（1.10%）；扩展后约 17,496 态（88.9%）
+- 断语规模：336 条（6 宫 × 7 象 × 8 类）
+- 版本：v3.0.0
+- 运行：完全离线，无网络请求、无账号
+- 许可：代码 MIT；文字与断语内容版权所有
+
+## 下载
+
+- Android APK（1.06MB）：https://github.com/q1z2q3-debug/xiuqiankun/releases/download/v3.0.0/xiuqiankun-app-android14.apk
+- 完整 ZIP（1.02MB）：https://github.com/q1z2q3-debug/xiuqiankun/releases/download/v3.0.0/xiuqiankun-app-android14.zip
+- 浏览器版 HTML：https://github.com/q1z2q3-debug/xiuqiankun/blob/main/src/index.html
+
+## 页面
+
+- [首页](https://q1z2q3-debug.github.io/xiuqiankun/)：定义、关键事实、架构概览、下载入口
+- [技术架构](https://q1z2q3-debug.github.io/xiuqiankun/architecture.html)：三值基底、九维向量、19683 空间、六宫投影、四象分类、融合断语与五步推算
+- [术语表](https://q1z2q3-debug.github.io/xiuqiankun/glossary.html)：三元基元、三值饱和运算、悬置态、杂化态等定义
+- [常见问题](https://q1z2q3-debug.github.io/xiuqiankun/faq.html)：下载、离线、Android 版本、引用方式
+- [下载](https://q1z2q3-debug.github.io/xiuqiankun/download.html)：APK/ZIP、SHA-256、安装步骤
+- [版本历史](https://q1z2q3-debug.github.io/xiuqiankun/versions.html)：v1.0 至 v3.0 归档
+
+## 引用
+
+润泽 ReynZE. 袖里乾坤：三元九维19683 认知占卜应用. 2026.
+https://github.com/q1z2q3-debug/xiuqiankun
+
+## 可选
+
+- [llms-full.txt](https://q1z2q3-debug.github.io/xiuqiankun/llms-full.txt)：完整事实与算法说明
+- [CITATION.cff](https://github.com/q1z2q3-debug/xiuqiankun/blob/main/CITATION.cff)：引用元数据
+- [VERSIONS.md](https://github.com/q1z2q3-debug/xiuqiankun/blob/main/VERSIONS.md)：历代版本
