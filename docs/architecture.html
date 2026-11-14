@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>技术架构｜袖里乾坤 · 三元九维19683 · 润泽AI项目</title>
+<meta name="description" content="袖里乾坤的完整技术架构：三值基底与饱和运算、九维认知向量、3⁹=19,683 状态空间、六宫投影、四象分类、336 条融合断语与五步推算法。">
+<meta name="keywords" content="三元九维19683, 九维认知向量, 19683认知空间, 六宫投影, 四象分类, 三值饱和运算, 袖里乾坤, 润泽AI项目">
+<meta name="author" content="润泽 ReynZE">
+<meta name="robots" content="index, follow, max-snippet:-1">
+<link rel="canonical" href="https://q1z2q3-debug.github.io/xiuqiankun/architecture.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="袖里乾坤技术架构：从三值基底到 19,683 认知空间">
+<meta property="og:description" content="三值基底、九维向量、状态编号、六宫投影、四象分类与融合断语的完整推导。">
+<meta property="og:url" content="https://q1z2q3-debug.github.io/xiuqiankun/architecture.html">
+<meta property="og:image" content="https://q1z2q3-debug.github.io/xiuqiankun/assets/hero-ink-art.png">
+<link rel="icon" href="assets/icon.png">
+<link rel="stylesheet" href="assets/site.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "@id": "https://q1z2q3-debug.github.io/xiuqiankun/architecture.html#article",
+      "headline": "袖里乾坤技术架构：从三值基底到 19,683 认知空间",
+      "description": "三值基底、九维认知向量、状态编号、六宫投影、四象分类与 336 条融合断语的完整推导。",
+      "inLanguage": "zh-CN",
+      "author": {"@type": "Person", "name": "润泽 ReynZE"},
+      "publisher": {"@type": "Organization", "name": "润泽AI项目"},
+      "mainEntityOfPage": "https://q1z2q3-debug.github.io/xiuqiankun/architecture.html",
+      "about": ["三元九维19683", "九维认知向量", "六宫投影", "四象分类", "袖里乾坤"]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "首页", "item": "https://q1z2q3-debug.github.io/xiuqiankun/"},
+        {"@type": "ListItem", "position": 2, "name": "技术架构", "item": "https://q1z2q3-debug.github.io/xiuqiankun/architecture.html"}
+      ]
+    },
+    {
+      "@type": "HowTo",
+      "name": "袖里乾坤五步推算法",
+      "description": "从农历时间到九维认知态编号的五步计算流程。",
+      "totalTime": "PT1M",
+      "step": [
+        {"@type": "HowToStep", "position": 1, "name": "农历转换", "text": "将公历年月日转换为农历年月日。"},
+        {"@type": "HowToStep", "position": 2, "name": "六宫推算", "text": "大安起正月，月上起日，日上起时，得到月宫、日宫、时宫。"},
+        {"@type": "HowToStep", "position": 3, "name": "基底映射", "text": "六宫映射为六神三值基底，每宫贡献 3 维向量。"},
+        {"@type": "HowToStep", "position": 4, "name": "向量合成", "text": "月宫、日宫、时宫各 3 维合成九维认知向量。"},
+        {"@type": "HowToStep", "position": 5, "name": "状态编号", "text": "按三进制编码 Σ(vᵢ × 3ⁱ) 得到 0 至 19682 的状态编号。"}
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<header class="site">
+  <nav class="nav">
+    <a class="brand" href="./">袖里<span>乾坤</span></a>
+    <a class="navlink" href="architecture.html">技术架构</a>
+    <a class="navlink" href="glossary.html">术语表</a>
+    <a class="navlink" href="faq.html">常见问题</a>
+    <a class="navlink" href="download.html">下载</a>
+    <span class="spacer"></span>
+    <a class="navlink" href="https://github.com/q1z2q3-debug/xiuqiankun">GitHub</a>
+  </nav>
+</header>
+
+<main>
+  <div class="kicker">ARCHITECTURE · 润泽AI项目</div>
+  <h1>从三值基底到 19,683 认知空间</h1>
+  <p class="lede">袖里乾坤的算法链路可以拆成七层：三值基底 → 九维向量 → 状态空间 → 六宫投影 → 四象分类 → 融合断语 → 移动应用。以下为各层的定义、公式与实测数据。</p>
+
+  <h2>一、三值基底与饱和运算</h2>
+  <p>认知生命体理论用三个基元描述一次认知动作的方向：<code>−1</code> 表示收敛、收缩、内敛与保存；<code>0</code> 表示悬置、转化、平衡与观察；<code>+1</code> 表示扩张、外放与争取。</p>
+  <p>三值之间的叠加采用<strong>饱和运算</strong>，保证结果始终落在同一语义空间内：</p>
+  <table>
+    <thead><tr><th>规则</th><th>表达式</th><th>含义</th></tr></thead>
+    <tbody>
+      <tr><td>同号饱和</td><td>+1 + +1 = +1；−1 + −1 = −1</td><td>同向叠加不溢出，截断在边界</td></tr>
+      <tr><td>异号归零</td><td>+1 + (−1) = 0</td><td>相反方向相互抵消，回到悬置</td></tr>
+      <tr><td>零元恒等</td><td>0 + x = x</td><td>悬置不改变既有方向</td></tr>
+    </tbody>
+  </table>
+  <p>这套运算使任意认知态的组合仍然是有界的：不会因为叠加产生「+2」或「−2」这类超出语义空间的取值。</p>
+
+  <h2>二、九维认知向量</h2>
+  <p>九个维度分别描述一种认知功能，每维取 −1 / 0 / +1：</p>
+  <table>
+    <thead><tr><th>维度</th><th>−1</th><th>0</th><th>+1</th></tr></thead>
+    <tbody>
+      <tr><td>觉知（觉察深度）</td><td>迟钝</td><td>平常</td><td>敏锐</td></tr>
+      <tr><td>纯粹存在（本体感知）</td><td>迷失</td><td>稳定</td><td>强烈</td></tr>
+      <tr><td>体感耦合（环境连接）</td><td>疏离</td><td>平和</td><td>紧密</td></tr>
+      <tr><td>自我识别（身份边界）</td><td>模糊</td><td>适中</td><td>清晰</td></tr>
+      <tr><td>主动放下（非执着力）</td><td>执念</td><td>平常</td><td>超脱</td></tr>
+      <tr><td>方向</td><td>收敛</td><td>悬置</td><td>扩张</td></tr>
+      <tr><td>能量</td><td>潜藏</td><td>蕴育</td><td>彰显</td></tr>
+      <tr><td>行动倾向</td><td>守势</td><td>候机</td><td>进取</td></tr>
+      <tr><td>时间节律（四象相位）</td><td>秋冬</td><td>交替</td><td>春夏</td></tr>
+    </tbody>
+  </table>
+
+  <h2>三、19683 状态空间与编号</h2>
+  <p>九维、每维三值，理论状态数为 <strong>3⁹ = 19,683</strong>。把每位取值映射为三进制数字（−1→0，0→1，+1→2），即可得到 0–19682 的唯一编号：</p>
+  <p class="mono">状态编号 = Σ (vᵢ + 1) × 3ⁱ，i = 0…8</p>
+  <ul>
+    <li>全 +1 态（太阳方向）→ 编号 <strong>19682</strong></li>
+    <li>全 −1 态（太阴方向）→ 编号 <strong>0</strong></li>
+  </ul>
+  <p>在月、日、时三组输入的约束下，实际可达状态为 <strong>216 个</strong>，覆盖率 <strong>1.10%</strong>；引入次级态与时间演化后，可达态扩展到约 <strong>17,496 个</strong>，覆盖率 <strong>88.9%</strong>。</p>
+
+  <h2>四、六宫投影</h2>
+  <p>月宫、日宫、时宫各贡献 3 维，将九维向量投影到小六壬六宫可读的标签上：</p>
+  <table>
+    <thead><tr><th>六宫</th><th>六神</th><th>三值基底</th></tr></thead>
+    <tbody>
+      <tr><td>大安</td><td>青龙</td><td>[+1, +1, +1]</td></tr>
+      <tr><td>留连</td><td>玄武</td><td>[−1, −1, −1]</td></tr>
+      <tr><td>速喜</td><td>朱雀</td><td>[+1, +1, −1]</td></tr>
+      <tr><td>赤口</td><td>白虎</td><td>[−1, +1, −1]</td></tr>
+      <tr><td>小吉</td><td>六合</td><td>[0, 0, +1]</td></tr>
+      <tr><td>空亡</td><td>勾陈</td><td>[0, −1, 0]</td></tr>
+    </tbody>
+  </table>
+  <p>六宫不是九维的替代，而是九维在特定算符下的投影：高维结构仍在断语层起作用，六宫提供的是可被传统语言理解的入口。</p>
+
+  <h2>五、四象分类</h2>
+  <p>统计九维中 +1、−1、0 的数量，按优先级匹配：悬置 &gt; 太阳/太阴 &gt; 少阳/少阴 &gt; 平衡 &gt; 杂化。</p>
+  <table>
+    <thead><tr><th>类别</th><th>判定</th><th>状态数（216 可达态中）</th></tr></thead>
+    <tbody>
+      <tr><td>太阳</td><td>+1 占优且 ≥5</td><td>16</td></tr>
+      <tr><td>太阴</td><td>−1 占优且 ≥5</td><td>16</td></tr>
+      <tr><td>少阳</td><td>+1 占优且 &lt;5</td><td>40</td></tr>
+      <tr><td>少阴</td><td>−1 占优且 &lt;5</td><td>40</td></tr>
+      <tr><td>平衡</td><td>+1 与 −1 数量相等</td><td>6</td></tr>
+      <tr><td>悬置</td><td>全 0</td><td>0（六宫投影不可达）</td></tr>
+      <tr><td>杂化</td><td>其余交织态</td><td>98</td></tr>
+    </tbody>
+  </table>
+  <p>四象同时对应季节流动：少阳为初春、太阳为盛夏、少阴为深秋、太阴为寒冬，平衡为春秋分，悬置如晨雾，杂化为风雨交织。</p>
+
+  <h2>六、融合断语</h2>
+  <p>断语不是随机文案，而是由四层要素合成：</p>
+  <ol>
+    <li><strong>六宫基底</strong>：决定领域基本属性，如大安的稳、赤口的争。</li>
+    <li><strong>四象相位</strong>：决定当前能量走向，如太阳的炽烈、少阴的渐收。</li>
+    <li><strong>维度张力</strong>：主导维度视为优势或陷阱，短板维度视为盲区。</li>
+    <li><strong>演化建议</strong>：给出该相位下的自然演化方向与具体行动。</li>
+  </ol>
+  <p>规模为 <strong>6 宫 × 7 象 × 8 类 = 336 条</strong>，采用「自然元素比喻 + 季节流动 + 100–150 字长文」的写法。</p>
+
+  <h2>七、五步推算法</h2>
+  <ol>
+    <li><strong>农历转换</strong>：公历年月日 → 农历年月日。</li>
+    <li><strong>六宫推算</strong>：
+      <ul>
+        <li>月宫 = (月 − 1) mod 6</li>
+        <li>日宫 = (月宫 + 日 − 1) mod 6</li>
+        <li>时宫 = (日宫 + 时辰索引) mod 6</li>
+      </ul>
+    </li>
+    <li><strong>基底映射</strong>：六宫 → 六神三值基底。</li>
+    <li><strong>向量合成</strong>：月宫 3 维 ⊕ 日宫 3 维 ⊕ 时宫 3 维。</li>
+    <li><strong>状态编号</strong>：三进制编码 → 0–19682。</li>
+  </ol>
+
+  <h2>八、实现与交付</h2>
+  <table>
+    <tbody>
+      <tr><th>前端</th><td>单文件自包含 HTML（内联 CSS/JS/Base64 图片），ES5 语法</td></tr>
+      <tr><th>容器</th><td>Android WebView 单 Activity</td></tr>
+      <tr><th>适配</th><td>targetSdk 34 / minSdk 21</td></tr>
+      <tr><th>签名</th><td>apksigner v1 + v2 + v3</td></tr>
+      <tr><th>依赖</th><td>零外部依赖、零网络请求</td></tr>
+    </tbody>
+  </table>
+  <p><a href="download.html">前往下载页 →</a> · <a href="glossary.html">查看术语表 →</a></p>
+</main>
+
+<footer class="site">
+  <div class="foot">
+    <p>© 袖里乾坤 · 版权所有 · 润泽 ReynZE</p>
+    <p><a href="./">首页</a> · <a href="faq.html">常见问题</a> · <a href="https://github.com/q1z2q3-debug/xiuqiankun">GitHub</a> · 更新于 2026-11-14</p>
+  </div>
+</footer>
+</body>
+</html>
